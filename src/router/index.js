@@ -86,14 +86,14 @@ export const constantRouterMap = [
     hidden: true,
     children: [{ path: 'dashboard', component: dashboard }]
   },
-  {
-    path: '/introduction',
-    component: Layout,
-    redirect: '/introduction/index',
-    icon: 'xinrenzhinan',
-    noDropdown: true,
-    children: [{ path: 'index', component: Introduction, name: '简述' }]
-  }
+  // {
+  //   path: '/introduction',
+  //   component: Layout,
+  //   redirect: '/introduction/index',
+  //   icon: 'xinrenzhinan',
+  //   noDropdown: true,
+  //   children: [{ path: 'index', component: Introduction, name: '简述' }]
+  // }
 ]
 
 export default new Router({
@@ -103,16 +103,16 @@ export default new Router({
 });
 
 export const asyncRouterMap = [
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/index',
-    name: '权限测试',
-    icon: 'quanxian',
-    meta: { role: ['admin'] },
-    noDropdown: true,
-    children: [{ path: 'index', component: Permission, name: '权限测试页', meta: { role: ['admin'] } }]
-  },
+  // {
+  //   path: '/permission',
+  //   component: Layout,
+  //   redirect: '/permission/index',
+  //   name: '权限测试',
+  //   icon: 'quanxian',
+  //   meta: { role: ['admin'] },
+  //   noDropdown: true,
+  //   children: [{ path: 'index', component: Permission, name: '权限测试页', meta: { role: ['admin'] } }]
+  // },
   {
     path: '/components',
     component: Layout,
@@ -134,58 +134,58 @@ export const asyncRouterMap = [
       { path: 'backtotop', component: BackToTop, name: '返回顶部' }
     ]
   },
-  {
-    path: '/charts',
-    component: Layout,
-    redirect: '/charts/index',
-    name: '图表',
-    icon: 'tubiaoleixingzhengchang',
-    children: [
-      { path: 'index', component: chartIndex, name: '介绍' },
-      { path: 'keyboard', component: KeyboardChart, name: '键盘图表' },
-      { path: 'keyboard2', component: KeyboardChart2, name: '键盘图表2' },
-      { path: 'line', component: LineMarker, name: '折线图' },
-      { path: 'mixchart', component: MixChart, name: '混合图表' }
-    ]
-  },
-  {
-    path: '/errorpage',
-    component: Layout,
-    redirect: 'noredirect',
-    name: '错误页面',
-    icon: '404',
-    children: [
-      { path: '401', component: Err401, name: '401' },
-      { path: '404', component: Err404, name: '404' }
-    ]
-  },
-  {
-    path: '/errlog',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'errlog',
-    icon: 'bug',
-    noDropdown: true,
-    children: [{ path: 'log', component: ErrorLog, name: '错误日志' }]
-  },
-  {
-    path: '/excel',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'excel',
-    icon: 'EXCEL',
-    noDropdown: true,
-    children: [{ path: 'download', component: ExcelDownload, name: '导出excel' }]
-  },
-  {
-    path: '/theme',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'theme',
-    icon: 'theme',
-    noDropdown: true,
-    children: [{ path: 'index', component: Theme, name: '换肤' }]
-  },
+  // {
+  //   path: '/charts',
+  //   component: Layout,
+  //   redirect: '/charts/index',
+  //   name: '图表',
+  //   icon: 'tubiaoleixingzhengchang',
+  //   children: [
+  //     { path: 'index', component: chartIndex, name: '介绍' },
+  //     { path: 'keyboard', component: KeyboardChart, name: '键盘图表' },
+  //     { path: 'keyboard2', component: KeyboardChart2, name: '键盘图表2' },
+  //     { path: 'line', component: LineMarker, name: '折线图' },
+  //     { path: 'mixchart', component: MixChart, name: '混合图表' }
+  //   ]
+  // },
+  // {
+  //   path: '/errorpage',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: '错误页面',
+  //   icon: '404',
+  //   children: [
+  //     { path: '401', component: Err401, name: '401' },
+  //     { path: '404', component: Err404, name: '404' }
+  //   ]
+  // },
+  // {
+  //   path: '/errlog',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: 'errlog',
+  //   icon: 'bug',
+  //   noDropdown: true,
+  //   children: [{ path: 'log', component: ErrorLog, name: '错误日志' }]
+  // },
+  // {
+  //   path: '/excel',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: 'excel',
+  //   icon: 'EXCEL',
+  //   noDropdown: true,
+  //   children: [{ path: 'download', component: ExcelDownload, name: '导出excel' }]
+  // },
+  // {
+  //   path: '/theme',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: 'theme',
+  //   icon: 'theme',
+  //   noDropdown: true,
+  //   children: [{ path: 'index', component: Theme, name: '换肤' }]
+  // },
   {
     path: '/example',
     component: Layout,
