@@ -25,6 +25,10 @@ const userMap = {
 }
 
 export default {
+  loginByPhone: config => {
+    const { phone } = JSON.parse(config.body);
+    return userMap[phone == '13120520590' ? 'admin' : 'admin'];
+  },
   loginByEmail: config => {
     const { email } = JSON.parse(config.body);
     return userMap[email.split('@')[0]];

@@ -2,6 +2,13 @@
  * Created by jiachenpan on 16/11/18.
  */
 
+
+ /* 是否是手机号码*/
+ export function isPhoneNum(str) {
+   const reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[013678]|18[0-9]|14[57])[0-9]{8}$/;
+   return reg.test(str.trim());
+ }
+
 /* 是否是公司邮箱*/
 export function isWscnEmail(str) {
   const reg = /^[a-z0-9](?:[-_.+]?[a-z0-9]+)*@wallstreetcn\.com$/i;

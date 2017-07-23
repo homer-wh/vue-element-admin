@@ -1,4 +1,4 @@
-import { loginByEmail, logout, getInfo } from 'api/login';
+import { loginByPhone, loginByEmail, logout, getInfo } from 'api/login';
 import { getToken, setToken, removeToken } from 'utils/auth';
 
 const user = {
@@ -50,6 +50,21 @@ const user = {
   },
 
   actions: {
+    // 手机登录
+    LoginByPhone({ commit }, userInfo) {
+      const phone = userInfo.phone.trim();
+      return new Promise((resolve, reject) => {
+        loginByPhone(phone, userInfo.password).then(response => {
+          const data = response.data;
+          setToken(response.data.token);
+          commit('SET_TOKEN', data.token);
+          resolve();
+        }).catch(error => {
+          reject(error);
+        });
+      });
+    },
+
     // 邮箱登录
     LoginByEmail({ commit }, userInfo) {
       const email = userInfo.email.trim();
