@@ -114,26 +114,72 @@ export const asyncRouterMap = [
   //   children: [{ path: 'index', component: Permission, name: '权限测试页', meta: { role: ['admin'] } }]
   // },
   {
-    path: '/components',
+    path: '/profile',
     component: Layout,
-    redirect: '/components/index',
-    name: '组件',
-    icon: 'zujian',
+    redirect: '/profile/index',
+    name: '个人资料',
+    icon: 'theme',
+    meta: { role: ['admin'] },
+    noDropdown: true,
+    children: [{ path: 'index', component: Permission, name: '个人资料', meta: { role: ['admin'] } }]
+  },
+  {
+    path: '/shop',
+    component: Layout,
+    redirect: '/shop/index',
+    name: '店铺管理',
+    icon: 'quanxian',
     children: [
-      { path: 'index', component: componentsIndex, name: '介绍 ' },
-      { path: 'tinymce', component: Tinymce, name: '富文本编辑器' },
-      { path: 'markdown', component: Markdown, name: 'Markdown' },
-      { path: 'jsoneditor', component: JsonEditor, name: 'JSON编辑器' },
-      { path: 'dndlist', component: DndList, name: '列表拖拽' },
-      { path: 'splitpane', component: SplitPane, name: 'SplitPane' },
-      { path: 'avatarupload', component: AvatarUpload, name: '头像上传' },
-      { path: 'dropzone', component: Dropzone, name: 'Dropzone' },
-      { path: 'sticky', component: Sticky, name: 'Sticky' },
-      { path: 'countto', component: CountTo, name: 'CountTo' },
-      { path: 'mixin', component: Mixin, name: '小组件' },
-      { path: 'backtotop', component: BackToTop, name: '返回顶部' }
+      { path: 'index', component: componentsIndex, name: '店铺装修 ' },
+      { path: 'certify', component: Tinymce, name: '实名认证' },
     ]
   },
+  {
+    path: '/batch',
+    component: Layout,
+    redirect: '/batch/index',
+    name: '批次管理',
+    icon: 'zonghe',
+    children: [
+      { path: 'index', component: DndList, name: '全部' },
+      { path: 'ongoing', component: Sticky, name: '进行中' },
+      { path: 'done', component: BackToTop, name: '已结束' }
+    ]
+  },
+  {
+    path: '/commodity',
+    component: Layout,
+    redirect: '/commodity/index',
+    name: '商品管理',
+    icon: 'zujian',
+    children: [
+      { path: 'index', component: Tinymce, name: '商品源' },
+      { path: 'forsale', component: DndList, name: '出售中' },
+      { path: 'unsold', component: DragTable, name: '未出售' },
+      { path: 'sticky', component: Sticky, name: '库存' },
+    ]
+  },
+  //  {
+  //   path: '/components',
+  //   component: Layout,
+  //   redirect: '/components/index',
+  //   name: '组件',
+  //   icon: 'zujian',
+  //   children: [
+  //     { path: 'index', component: componentsIndex, name: '介绍 ' },
+  //     { path: 'tinymce', component: Tinymce, name: '富文本编辑器' },
+  //     { path: 'markdown', component: Markdown, name: 'Markdown' },
+  //     { path: 'jsoneditor', component: JsonEditor, name: 'JSON编辑器' },
+  //     { path: 'dndlist', component: DndList, name: '列表拖拽' },
+  //     { path: 'splitpane', component: SplitPane, name: 'SplitPane' },
+  //     { path: 'avatarupload', component: AvatarUpload, name: '头像上传' },
+  //     { path: 'dropzone', component: Dropzone, name: 'Dropzone' },
+  //     { path: 'sticky', component: Sticky, name: 'Sticky' },
+  //     { path: 'countto', component: CountTo, name: 'CountTo' },
+  //     { path: 'mixin', component: Mixin, name: '小组件' },
+  //     { path: 'backtotop', component: BackToTop, name: '返回顶部' }
+  //   ]
+  // },
   // {
   //   path: '/charts',
   //   component: Layout,
@@ -186,30 +232,30 @@ export const asyncRouterMap = [
   //   noDropdown: true,
   //   children: [{ path: 'index', component: Theme, name: '换肤' }]
   // },
-  {
-    path: '/example',
-    component: Layout,
-    redirect: 'noredirect',
-    name: '综合实例',
-    icon: 'zonghe',
-    children: [
-      {
-        path: '/example/table',
-        component: TableLayout,
-        redirect: '/example/table/table',
-        name: 'Table',
-        children: [
-          { path: 'dynamictable', component: DynamicTable, name: '动态table' },
-          { path: 'dragtable', component: DragTable, name: '拖拽table' },
-          { path: 'inline_edit_table', component: InlineEditTable, name: 'table内编辑' },
-          { path: 'table', component: Table, name: '综合table' }
-        ]
-      },
-      { path: 'form/edit', component: Form, name: '编辑Form', meta: { isEdit: true } },
-      { path: 'form/create', component: Form, name: '创建Form' },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: '综合实例',
+  //   icon: 'zonghe',
+  //   children: [
+  //     {
+  //       path: '/example/table',
+  //       component: TableLayout,
+  //       redirect: '/example/table/table',
+  //       name: 'Table',
+  //       children: [
+  //         { path: 'dynamictable', component: DynamicTable, name: '动态table' },
+  //         { path: 'dragtable', component: DragTable, name: '拖拽table' },
+  //         { path: 'inline_edit_table', component: InlineEditTable, name: 'table内编辑' },
+  //         { path: 'table', component: Table, name: '综合table' }
+  //       ]
+  //     },
+  //     { path: 'form/edit', component: Form, name: '编辑Form', meta: { isEdit: true } },
+  //     { path: 'form/create', component: Form, name: '创建Form' },
 
-      { path: 'tab/index', component: Tab, name: 'Tab' }
-    ]
-  },
+  //     { path: 'tab/index', component: Tab, name: 'Tab' }
+  //   ]
+  // },
   { path: '*', redirect: '/404', hidden: true }
 ];
