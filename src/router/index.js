@@ -119,9 +119,9 @@ export const asyncRouterMap = [
     redirect: '/profile/index',
     name: '个人资料',
     icon: 'theme',
-    meta: { role: ['admin'] },
+    // meta: { role: ['admin'] },
     noDropdown: true,
-    children: [{ path: 'index', component: Permission, name: '个人资料', meta: { role: ['admin'] } }]
+    children: [{ path: 'index', component: AvatarUpload, name: '个人资料'/*, meta: { role: ['admin'] }*/ }]
   },
   {
     path: '/shop',
@@ -131,7 +131,7 @@ export const asyncRouterMap = [
     icon: 'quanxian',
     children: [
       { path: 'index', component: componentsIndex, name: '店铺装修 ' },
-      { path: 'certify', component: Tinymce, name: '实名认证' },
+      { path: 'certify', component: Form, name: '实名认证' },
     ]
   },
   {
@@ -141,9 +141,9 @@ export const asyncRouterMap = [
     name: '批次管理',
     icon: 'zonghe',
     children: [
-      { path: 'index', component: DndList, name: '全部' },
-      { path: 'ongoing', component: Sticky, name: '进行中' },
-      { path: 'done', component: BackToTop, name: '已结束' }
+      { path: 'index', component: Table, name: '全部' },
+      { path: 'ongoing', component: Table, name: '进行中' },
+      { path: 'done', component: Table, name: '已结束' }
     ]
   },
   {
@@ -153,10 +153,10 @@ export const asyncRouterMap = [
     name: '商品管理',
     icon: 'zujian',
     children: [
-      { path: 'index', component: Tinymce, name: '商品源' },
-      { path: 'forsale', component: DndList, name: '出售中' },
-      { path: 'unsold', component: DragTable, name: '未出售' },
-      { path: 'sticky', component: Sticky, name: '库存' },
+      { path: 'index', component: InlineEditTable, name: '商品源' },
+      { path: 'forsale', component: InlineEditTable, name: '出售中' },
+      { path: 'unsold', component: InlineEditTable, name: '未出售' },
+      { path: 'sticky', component: InlineEditTable, name: '库存' },
     ]
   },
   //  {
@@ -232,30 +232,30 @@ export const asyncRouterMap = [
   //   noDropdown: true,
   //   children: [{ path: 'index', component: Theme, name: '换肤' }]
   // },
-  {
-    path: '/example',
-    component: Layout,
-    redirect: 'noredirect',
-    name: '综合实例',
-    icon: 'zonghe',
-    children: [
-      {
-        path: '/example/table',
-        component: TableLayout,
-        redirect: '/example/table/table',
-        name: 'Table',
-        children: [
-          { path: 'dynamictable', component: DynamicTable, name: '动态table' },
-          { path: 'dragtable', component: DragTable, name: '拖拽table' },
-          { path: 'inline_edit_table', component: InlineEditTable, name: 'table内编辑' },
-          { path: 'table', component: Table, name: '综合table' }
-        ]
-      },
-      { path: 'form/edit', component: Form, name: '编辑Form', meta: { isEdit: true } },
-      { path: 'form/create', component: Form, name: '创建Form' },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: 'noredirect',
+  //   name: '综合实例',
+  //   icon: 'zonghe',
+  //   children: [
+  //     {
+  //       path: '/example/table',
+  //       component: TableLayout,
+  //       redirect: '/example/table/table',
+  //       name: 'Table',
+  //       children: [
+  //         { path: 'dynamictable', component: DynamicTable, name: '动态table' },
+  //         { path: 'dragtable', component: DragTable, name: '拖拽table' },
+  //         { path: 'inline_edit_table', component: InlineEditTable, name: 'table内编辑' },
+  //         { path: 'table', component: Table, name: '综合table' }
+  //       ]
+  //     },
+  //     { path: 'form/edit', component: Form, name: '编辑Form', meta: { isEdit: true } },
+  //     { path: 'form/create', component: Form, name: '创建Form' },
 
-      { path: 'tab/index', component: Tab, name: 'Tab' }
-    ]
-  },
+  //     { path: 'tab/index', component: Tab, name: 'Tab' }
+  //   ]
+  // },
   { path: '*', redirect: '/404', hidden: true }
 ];
