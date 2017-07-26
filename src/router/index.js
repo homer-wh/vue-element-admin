@@ -131,7 +131,7 @@ export const asyncRouterMap = [
     icon: 'quanxian',
     children: [
       { path: 'index', component: componentsIndex, name: '店铺装修 ' },
-      { path: 'certify', component: Form, name: '实名认证' },
+      { path: 'certify', component: Permission, name: '实名认证' },
     ]
   },
   {
@@ -141,9 +141,9 @@ export const asyncRouterMap = [
     name: '批次管理',
     icon: 'zonghe',
     children: [
-      { path: 'index', component: Table, name: '全部' },
-      { path: 'ongoing', component: Table, name: '进行中' },
-      { path: 'done', component: Table, name: '已结束' }
+      { path: 'index', component: Introduction, name: '全部' },
+      { path: 'ongoing', component: Introduction, name: '进行中' },
+      { path: 'done', component: Introduction, name: '已结束' }
     ]
   },
   {
@@ -153,10 +153,10 @@ export const asyncRouterMap = [
     name: '商品管理',
     icon: 'zujian',
     children: [
-      { path: 'index', component: InlineEditTable, name: '商品源' },
-      { path: 'forsale', component: InlineEditTable, name: '出售中' },
-      { path: 'unsold', component: InlineEditTable, name: '未出售' },
-      { path: 'sticky', component: InlineEditTable, name: '库存' },
+      { path: 'index', component: BackToTop, name: '商品源' },
+      { path: 'forsale', component: BackToTop, name: '出售中' },
+      { path: 'unsold', component: BackToTop, name: '未出售' },
+      { path: 'sticky', component: BackToTop, name: '库存' },
     ]
   },
   //  {
