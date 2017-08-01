@@ -60,6 +60,10 @@ const InlineEditTable = _import('example/table/inlineEditTable');
 const Form = _import('example/form');
 const Tab = _import('example/tab/index');
 
+/*profile*/
+
+const Profile = _import('profile/index');
+
 /* permission */
 const Permission = _import('permission/index');
 
@@ -121,7 +125,7 @@ export const asyncRouterMap = [
     icon: 'theme',
     // meta: { role: ['admin'] },
     noDropdown: true,
-    children: [{ path: 'index', component: AvatarUpload, name: '个人资料'/*, meta: { role: ['admin'] }*/ }]
+    children: [{ path: 'index', component: Profile, name: '个人资料'/*, meta: { role: ['admin'] }*/ }]
   },
   {
     path: '/shop',
