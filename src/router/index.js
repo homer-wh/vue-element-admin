@@ -24,7 +24,7 @@ const JsonEditor = _import('components/jsoneditor');
 const DndList = _import('components/dndlist');
 const AvatarUpload = _import('components/avatarUpload');
 const Dropzone = _import('components/dropzone');
-const Sticky = _import('components/sticky');
+// const Sticky = _import('components/sticky');
 const SplitPane = _import('components/splitpane');
 const CountTo = _import('components/countTo');
 const Mixin = _import('components/mixin');
@@ -66,6 +66,21 @@ const Profile = _import('profile/index');
 
 /* permission */
 const Permission = _import('permission/index');
+
+/*shop*/
+const Shop = _import('shop/shop/index')
+const Certify = _import('shop/certify/index')
+
+/*batch*/
+const All = _import('batch/all/index')
+const Ongoing = _import('batch/ongoing/index')
+const Done = _import('batch/done/index')
+
+/*commodity*/
+const Resources = _import('commodity/resources/index')
+const Forsale = _import('commodity/forsale/index')
+const Unsold = _import('commodity/unsold/index')
+const Sticky = _import('commodity/sticky/index')
 
 Vue.use(Router);
 
@@ -134,8 +149,8 @@ export const asyncRouterMap = [
     name: '店铺管理',
     icon: 'quanxian',
     children: [
-      { path: 'index', component: componentsIndex, name: '店铺装修 ' },
-      { path: 'certify', component: Permission, name: '实名认证' },
+      { path: 'index', component: Shop, name: '店铺装修 ' },
+      { path: 'certify', component: Certify, name: '实名认证' },
     ]
   },
   {
@@ -145,9 +160,9 @@ export const asyncRouterMap = [
     name: '批次管理',
     icon: 'zonghe',
     children: [
-      { path: 'index', component: Introduction, name: '全部' },
-      { path: 'ongoing', component: Introduction, name: '进行中' },
-      { path: 'done', component: Introduction, name: '已结束' }
+      { path: 'index', component: All, name: '全部' },
+      { path: 'ongoing', component: Ongoing, name: '进行中' },
+      { path: 'done', component: Done, name: '已结束' }
     ]
   },
   {
@@ -157,10 +172,10 @@ export const asyncRouterMap = [
     name: '商品管理',
     icon: 'zujian',
     children: [
-      { path: 'index', component: BackToTop, name: '商品源' },
-      { path: 'forsale', component: BackToTop, name: '出售中' },
-      { path: 'unsold', component: BackToTop, name: '未出售' },
-      { path: 'sticky', component: BackToTop, name: '库存' },
+      { path: 'index', component: Resources, name: '商品源' },
+      { path: 'forsale', component: Forsale, name: '出售中' },
+      { path: 'unsold', component: Unsold, name: '未出售' },
+      { path: 'sticky', component: Sticky, name: '库存' },
     ]
   },
   //  {
