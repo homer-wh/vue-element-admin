@@ -1,6 +1,5 @@
 <template>
   <div class="components-container">
-    <code>个人资料</code>
 
     <pan-thumb :image='image'></pan-thumb>
 

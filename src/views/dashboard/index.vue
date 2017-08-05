@@ -1,36 +1,44 @@
 <template>
-  <div class="dashboard-container">
-    <component v-bind:is="currentRole"> </component>
+  <div class="tab-container">
+    <!-- <el-tag type="primary">mounted times ：{{createdTimes}}</el-tag> -->
+    <el-tabs style='margin-top:15px;' v-model="activeName" type="border-card">
+      <el-tab-pane v-for="item in tabMapOptions" :label="item.label" :key='item.key' :name="item.key">
+        <keep-alive>
+          <tab-pane v-if='activeName==item.key' :type='item.key' @create='showCreatedTimes'></tab-pane>
+        </keep-alive>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
-  import EditorDashboard from './editor/index';
-  import DefaultDashboard from './default/index';
+  import tabPane from './components/tabPane'
 
   export default {
-    name: 'dashboard',
-    components: { EditorDashboard, DefaultDashboard },
+    name: 'tabDemo',
+    components: { tabPane },
     data() {
       return {
-        currentRole: 'EditorDashboard'
+        tabMapOptions: [
+          { label: '中国', key: 'CN' },
+          { label: '美国', key: 'US' },
+          // { label: '日本', key: 'JP' },
+          // { label: '欧元区', key: 'EU' }
+        ],
+        activeName: 'CN',
+        createdTimes: 0
       }
     },
-    computed: {
-      ...mapGetters([
-        'name',
-        'avatar',
-        'email',
-        'introduction',
-        'roles'
-      ])
-    },
-    created() {
-      if (this.roles.indexOf('admin') >= 0) {
-        return;
+    methods: {
+      showCreatedTimes() {
+        this.createdTimes = this.createdTimes + 1;
       }
-      this.currentRole = 'DefaultDashboard';
     }
   }
 </script>
+
+<style scoped>
+  .tab-container{
+    margin: 30px;
+  }
+</style>

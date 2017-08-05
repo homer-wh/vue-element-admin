@@ -60,6 +60,11 @@ const InlineEditTable = _import('example/table/inlineEditTable');
 const Form = _import('example/form');
 const Tab = _import('example/tab/index');
 
+
+/*dashboard*/
+const Dashboard = _import('dashboard/index');
+
+
 /*profile*/
 
 const Profile = _import('profile/index');
@@ -103,7 +108,7 @@ export const constantRouterMap = [
     redirect: '/dashboard',
     name: '首页',
     hidden: true,
-    children: [{ path: 'dashboard', component: Tab}]
+    children: [{ path: 'dashboard', component: Dashboard}]
   },
   // {
   //   path: '/introduction',
