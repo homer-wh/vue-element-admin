@@ -39,6 +39,6 @@
 
 <style scoped>
   .tab-container{
-    margin: 30px;
+    margin: 60px;
   }
 </style>
