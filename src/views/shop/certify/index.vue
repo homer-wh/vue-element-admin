@@ -2,13 +2,13 @@
   <div class="app-container">
     <div class="pro-title">实名认证</div>
     <div class="pro-box">
-      <el-row :gutter="20">
+      <el-row class="pro-el-row" :gutter="20">
         <el-col :span="6"><div class="">店铺创建者身份:</div></el-col>
         <el-col :span="12"><div class="">请在DOPE客户端的“实名认证”中填写个人资料</div></el-col>
         <el-col :span="4"><div class="go2certify"><span class="vertical-line">&nbsp;</span>未认证</div></el-col>
       </el-row>
       <div class="por-line"></div>
-      <el-row :gutter="20">
+      <el-row class="pro-el-row" :gutter="20">
         <el-col :span="6"><div class="">手机号码:</div></el-col>
         <el-col :span="12"><div class="">150****0000</div></el-col>
       </el-row>
@@ -44,7 +44,7 @@
     font-size: 20px;
     margin: 50px auto;
   }
-  .el-row {
+  .pro-el-row {
     line-height: 40px;
   }
   .por-line {

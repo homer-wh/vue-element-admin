@@ -67,9 +67,9 @@
                           label="商品名称"
                           width="280">
                           <template scope="scope">
-                              <el-row :gutter="20">
+                              <el-row class="table-el-row" :gutter="20">
                                   <el-col :span="10">
-                                      <div class="img-box">{{scope.row.img}}</div>
+                                      <div class="img-box-table">{{scope.row.img}}</div>
                                   </el-col>
                                   <el-col :span="14">
                                       <p>{{scope.row.product}}</p>
@@ -216,12 +216,12 @@
         width: 200px;
         background: #999;
     }
-    .img-box {
+    .img-box-table {
         width: 100px;
         height: 100px;
         background: #ccc;
     }
-    .el-row {
+    .table-el-row {
         padding: 10px 0;
     }
 </style>

@@ -124,7 +124,4 @@
         height: 100px;
         background: #ccc;
     }
-    .el-row {
-        padding: 10px 0;
-    }
 </style>

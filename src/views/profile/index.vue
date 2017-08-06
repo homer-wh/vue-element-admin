@@ -2,17 +2,17 @@
   <div class="app-container">
     <div class="pro-title">个人资料</div>
     <div class="pro-box">
-      <el-row :gutter="20">
+      <el-row class="pro-el-row" :gutter="20">
         <el-col :span="6"><div class="">本账户角色:</div></el-col>
         <el-col :span="12"><div class="">财务</div></el-col>
       </el-row>
       <div class="por-line"></div>
-      <el-row :gutter="20">
+      <el-row class="pro-el-row" :gutter="20">
         <el-col :span="6"><div class="">昵称:</div></el-col>
         <el-col :span="12"><div class="">三十</div></el-col>
       </el-row>
       <div class="por-line"></div>
-      <el-row :gutter="20">
+      <el-row class="pro-el-row" :gutter="20">
         <el-col :span="6"><div class="">手机号码:</div></el-col>
         <el-col :span="12"><div class="">150****0000</div></el-col>
       </el-row>
@@ -52,7 +52,7 @@
     font-size: 20px;
     margin: 50px auto;
   }
-  .el-row {
+  .pro-el-row {
     line-height: 40px;
   }
   .por-line {
