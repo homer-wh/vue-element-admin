@@ -1,28 +1,16 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
-      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="标题" v-model="listQuery.title">
-      </el-input>
-
-      <el-select clearable style="width: 90px" class="filter-item" v-model="listQuery.importance" placeholder="重要性">
-        <el-option v-for="item in importanceOptions" :key="item" :label="item" :value="item">
-        </el-option>
-      </el-select>
-
-      <el-select clearable class="filter-item" style="width: 130px" v-model="listQuery.type" placeholder="类型">
-        <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name+'('+item.key+')'" :value="item.key">
-        </el-option>
-      </el-select>
-
-      <el-select @change='handleFilter' style="width: 120px" class="filter-item" v-model="listQuery.sort" placeholder="排序">
-        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key">
-        </el-option>
-      </el-select>
-
-      <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
-      <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
-      <el-checkbox class="filter-item" @change='tableKey=tableKey+1' v-model="showAuditor">显示审核人</el-checkbox>
+        <el-input placeholder="请输入内容" v-model="input5">
+          <el-select v-model="select" slot="prepend" placeholder="请选择">
+            <el-option label="全部" value="1"></el-option>
+            <el-option label="批次号" value="2"></el-option>
+            <el-option label="供应商" value="3"></el-option>
+            <el-option label="商品" value="4"></el-option>
+            <el-option label="备注" value="5"></el-option>
+          </el-select>
+          <el-button slot="append" icon="search"></el-button>
+        </el-input>
     </div>
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
@@ -31,9 +19,9 @@
         <template scope="scope">
           <span>{{scope.row.timestamp | parseTime('P{y}{m}{d}A')}}</span>
           <div style="margin:5px 0;"></div>
-          <el-button v-if="scope.row.status!='1'" size="small" plain type="primary" @click="handleModifyStatus(scope.row,'published')">进行中
+          <el-button v-if="scope.row.status!='1'" size="small" plain type="primary">进行中
           </el-button>
-          <el-button v-else size="small" disabled plain type="primary" @click="handleModifyStatus(scope.row,'published')">已结束
+          <el-button v-else size="small" disabled plain type="primary">已结束
           </el-button>
           <div style="margin:5px 0;"></div>
         </template>
@@ -74,10 +62,10 @@
           <el-button v-if="scope.row.status!='1'" size="small" plain type="text" @click="handleModifyStatus(scope.row,'published')">追加支付
           </el-button>
           <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
-          <el-button v-if="scope.row.status!='1'" size="small" plain plain type="text" @click="handleModifyStatus(scope.row,'draft')">追加采购
+          <el-button v-if="scope.row.status!='1'" size="small" plain plain type="text" @click="">追加采购
           </el-button>
           <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
-          <el-button v-if="scope.row.status" size="small" plain plain type="text" @click="handleModifyStatus(scope.row,'deleted')">查看详情
+          <el-button v-if="scope.row.status" size="small" plain plain type="text" @click="">查看详情
           </el-button>
         </template>
       </el-table-column>
@@ -165,6 +153,8 @@
     name: 'table_demo',
     data() {
       return {
+        select: '',
+        input5: '',
         list: null,
         total: null,
         listLoading: true,
@@ -254,7 +244,7 @@
       },
       handleModifyStatus(row, status) {
         this.$message({
-          message: '操作成功',
+          message: '请前往移动端进行追加支付操作',
           type: 'success'
         });
         row.status = status;
@@ -347,3 +337,12 @@
     }
   }
 </script>
+
+<style>
+    .filter-container {
+        width: 500px;
+    }
+    .el-select .el-input {
+        width: 110px;
+    }
+</style>
