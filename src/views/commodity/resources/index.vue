@@ -42,51 +42,48 @@
                               </el-col>
                               <el-col :span="14">
                                   <p>{{scope.row.product}}</p>
-                                  <el-button plain>{{scope.row.color}}</el-button>
                               </el-col>
                           </el-row>
                       </template>
                     </el-table-column>
                     <el-table-column
-                      prop="price"
-                      label="进货单价"
+                      prop="productnum"
+                      label="商品货号"
                       align="center">
                     </el-table-column>
                     <el-table-column
-                      prop="paied"
+                      prop="color"
                       align="center"
-                      label="已支付">
+                      label="颜色">
                     </el-table-column>
                     <el-table-column
                       align="center"
-                      prop="shouldpay"
-                      label="还应支付">
-                    </el-table-column>
-                    <el-table-column
-                      prop="receive"
-                      align="center"
-                      label="已到货">
-                    </el-table-column>
-                    <el-table-column
-                      prop="shouldreceive"
-                      align="center"
-                      label="应到货">
-                    </el-table-column>
-                    <el-table-column
-                      prop="total"
-                      align="center"
-                      label="进货总数">
+                      prop="date"
+                      label="创建时间">
                     </el-table-column>
                     <el-table-column
                       prop="operate"
                       align="center"
                       label="操作">
                       <template scope="scope">
-                          <el-button type="text">查看到货</el-button>
+                          <el-button type="text">编辑</el-button>
+                          <div></div>
+                          <el-button type="text">隐藏</el-button>
                       </template>
                     </el-table-column>
                   </el-table>
               </div>
+            </div>
+            <div class="page-count">
+              <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage4"
+                    :page-sizes="[100, 200, 300, 400]"
+                    :page-size="100"
+                    layout="total, sizes, prev, pager, next, jumper"
+                    :total="400">
+                  </el-pagination>
             </div>
     </div>
 </template>
@@ -98,33 +95,39 @@
               product: 'FENDI男士腰带',
               color: '白色',
               img: 'img1',
-              price: '¥1,900.00',
-              paied: '¥900.00',
-              shouldpay: '¥10,000.00',
-              receive: '2',
-              shouldreceive: '5',
-              total: '10',
+              productnum: 'NKS0059',
+              date: '2017-07-09',
               operate: ''
             },{
               product: 'FENDI男士包包',
-              color: '如图色',
-              img: 'img2',
-              price: '¥2,860.00',
-              paied: '¥0.00',
-              shouldpay: '¥1,000.00',
-              receive: '0',
-              shouldreceive: '1',
-              total: '5',
+              color: '黑色',
+              img: 'img1',
+              productnum: 'NKS0059',
+              date: '2017-07-09',
+              operate: ''
+            },{
+              product: 'FENDI男士长裤',
+              color: '红色',
+              img: 'img1',
+              productnum: 'NKS0059',
+              date: '2017-07-09',
               operate: ''
             }],
             commoditysearch: '',
             commoditytype: '',
-            multipleSelection: []
+            multipleSelection: [],
+            currentPage4: 4
           }
         },
         methods: {
           handleSelectionChange(val) {
               this.multipleSelection = val;
+          },
+          handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+          },
+          handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
           }
         }
       }
@@ -193,5 +196,9 @@
     }
     .right-select {
       float: right;
+    }
+    .page-count {
+      float: right;
+      margin: 20px;
     }
 </style>
