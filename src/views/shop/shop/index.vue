@@ -22,12 +22,45 @@
                   <el-tab-pane label="编辑店铺招牌">
                     <div class="editor-box">
                         <p>店铺招牌</p>
-                        <p>图片建议尺寸为 750px × 210px</p>
+                        <p class="desc-gray">图片建议尺寸为 750px × 210px</p>
+                        <div class="upload-box">
+                            <div class="uploader-border">
+                                <el-upload
+                                  class="avatar-uploader"
+                                  action="https://jsonplaceholder.typicode.com/posts/"
+                                  :show-file-list="false"
+                                  :on-success="handleAvatarSuccess"
+                                  :before-upload="beforeAvatarUpload">
+                                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                  <span v-else class="holder-text">点击上传招牌图片</span>
+                                </el-upload>
+                            </div>
+
+                        </div>
+                        <div class="pre-view">
+                            <el-button class="pre-view-btn" type="primary" plain size="large">预览</el-button>
+                        </div>
                     </div>
                   </el-tab-pane>
                   <el-tab-pane label="编辑店铺LOGO">
                     <div class="editor-box">
                         <p>店铺LOGO</p>
+                        <div class="upload-box">
+                            <div class="uploader-border-circle">
+                                <el-upload
+                                  class="logo-uploader"
+                                  action="https://jsonplaceholder.typicode.com/posts/"
+                                  :show-file-list="false"
+                                  :on-success="handleAvatarSuccess"
+                                  :before-upload="beforeAvatarUpload">
+                                  <img v-if="logoUrl" :src="logoUrl" class="logoImg">
+                                  <span v-else class="holder-text">点击上传LOGO图片</span>
+                                </el-upload>
+                            </div>
+                        </div>
+                        <div class="pre-view">
+                            <el-button class="pre-view-btn" type="primary" plain size="large">预览</el-button>
+                        </div>
                     </div>
                   </el-tab-pane>
                 </el-tabs>
@@ -44,12 +77,29 @@
         data() {
             return {
                 shop_bg,
-                isTabs: false
+                isTabs: false,
+                imageUrl: '',
+                logoUrl: ''
             }
         },
         methods: {
             showEditor() {
                 this.isTabs = !this.isTabs
+            },
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                  this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                  this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
             }
         }
     }
@@ -62,6 +112,7 @@
     .shop-title {
         font-size: 20px;
         margin-bottom: 20px;
+        font-weight: 400;
     }
     .el-col {
         overflow: hidden;
@@ -113,4 +164,69 @@
     .editor-box {
         padding: 20px;
     }
+    .desc-gray {
+        color: rgb(153, 153, 153);
+    }
+    .upload-box {
+        margin: 50px 0;
+    }
+    .uploader-border,
+    .uploader-border-circle {
+        display: inline-block;
+        padding: 10px;
+        border: 1px solid #ddd;
+    }
+    .uploader-border-circle {
+        margin-left: 90px;
+        border-radius: 50%;
+    }
+    .pre-view {
+        margin: 50px 0;
+    }
+    .pre-view-btn{
+        width: 397px;
+    }
+    .el-button--large {
+        font-size: 20px;
+    }
+    .avatar-uploader {
+        height: 105px;
+    }
+    .avatar-uploader .el-upload {
+        width: 375px;
+        height: 105px;
+        line-height: 105px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        background: #f2f2f2;
+    }
+    .logo-uploader {
+        height: 180px;
+    }
+    .logo-uploader .el-upload {
+        width: 180px;
+        height: 180px;
+        line-height: 180px;
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        background: #f2f2f2;
+    }
+    .logoImg {
+        width: 180px;
+        height: 180px;
+        display: block;
+    }
+    .avatar {
+        width: 375px;
+        height: 105px;
+        display: block;
+    }
+    .holder-text {
+        font-size: 20px;
+        color: rgb(204, 204, 204);
+    }
+
 </style>
