@@ -1,5 +1,6 @@
 <template>
   <div class="app-container calendar-list-container">
+    <div class="batch-titel">批次管理</div>
     <div class="filter-container">
         <el-input placeholder="请输入内容" v-model="input5">
           <el-select v-model="select" slot="prepend" placeholder="请选择">
@@ -62,11 +63,13 @@
           <el-button v-if="scope.row.status!='1'" size="small" plain type="text" @click="handleModifyStatus(scope.row,'published')">追加支付
           </el-button>
           <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
-          <el-button v-if="scope.row.status!='1'" size="small" plain plain type="text" @click="">追加采购
+          <el-button v-if="scope.row.status!='1'" size="small" plain plain type="text" @click="handleCreate">追加采购
           </el-button>
           <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
-          <el-button v-if="scope.row.status" size="small" plain plain type="text" @click="">查看详情
-          </el-button>
+          <router-link to="/batch/detail">
+            <el-button v-if="scope.row.status" size="small" plain plain type="text" @click="go2detail">查看详情</el-button>
+          </router-link>
+
         </template>
       </el-table-column>
 
@@ -78,55 +81,10 @@
       </el-pagination>
     </div>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form class="small-space" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
-        <el-form-item label="类型">
-          <el-select class="filter-item" v-model="temp.type" placeholder="请选择">
-            <el-option v-for="item in  calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="状态">
-          <el-select class="filter-item" v-model="temp.status" placeholder="请选择">
-            <el-option v-for="item in  statusOptions" :key="item" :label="item" :value="item">
-            </el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label="时间">
-          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="选择日期时间">
-          </el-date-picker>
-        </el-form-item>
-
-        <el-form-item label="标题">
-          <el-input v-model="temp.title"></el-input>
-        </el-form-item>
-
-        <el-form-item label="重要性">
-          <el-rate style="margin-top:8px;" v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']"></el-rate>
-        </el-form-item>
-
-        <el-form-item label="点评">
-          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入内容" v-model="temp.remark">
-          </el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button v-if="dialogStatus=='create'" type="primary" @click="create">确 定</el-button>
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" top="35%">
+        <el-button size="large" @click="dialogFormVisible = false">&nbsp;添加商品源&nbsp;</el-button>
+        <el-button size="large" v-if="dialogStatus=='create'" type="primary" @click="dialogFormVisible = false">选择已有商品</el-button>
         <el-button v-else type="primary" @click="update">确 定</el-button>
-      </div>
-    </el-dialog>
-
-    <el-dialog title="阅读数统计" :visible.sync="dialogPvVisible" size="small">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="渠道"> </el-table-column>
-        <el-table-column prop="pv" label="pv"> </el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPvVisible = false">确 定</el-button>
-      </span>
     </el-dialog>
 
   </div>
@@ -183,7 +141,7 @@
         dialogStatus: '',
         textMap: {
           update: '编辑',
-          create: '创建'
+          create: '追加采购'
         },
         dialogPvVisible: false,
         pvData: [],
@@ -333,16 +291,27 @@
             return v[j]
           }
         }))
+      },
+      go2detail() {
+
       }
     }
   }
 </script>
 
 <style>
+    .batch-titel {
+        font-size: 20px;
+        margin: 0 0 30px;
+    }
     .filter-container {
         width: 500px;
     }
     .el-select .el-input {
         width: 110px;
+    }
+    .el-dialog__header,
+    .el-dialog__body {
+        text-align: center;
     }
 </style>

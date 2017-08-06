@@ -81,6 +81,7 @@ const All = _import('batch/all/index')
 const Ongoing = _import('batch/ongoing/index')
 const Done = _import('batch/done/index')
 
+const Detail = _import('batch/all/children/index')
 /*commodity*/
 const Resources = _import('commodity/resources/index')
 const Forsale = _import('commodity/forsale/index')
@@ -165,7 +166,8 @@ export const asyncRouterMap = [
     name: '批次管理',
     icon: 'zonghe',
     children: [
-      { path: 'index', component: All, name: '批次管理' },
+      { path: 'index', component: All, name: '批次管理'},
+      {path: 'detail', component: Detail, name: '查看详情', hidden: true},
       { path: 'ongoing', component: Ongoing, name: '创建批次' }
     ]
   },
