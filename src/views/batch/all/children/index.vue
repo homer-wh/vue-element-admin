@@ -15,7 +15,7 @@
                 <div class="payout-box">
                     <p><span class="bold-text">预计商品成本支出: </span><span>¥25,400.00</span></p>
                     <p><span class="bold-text">实际已支付商品成本: </span><span>¥1,090.00</span></p>
-                    <p><span class="bold-text">实际已支付其他成本: </span><span>¥1,100.00</span></p>
+                    <p><span class="bold-text">实际已支付其他成本: </span><span>¥1,100.00</span> <span class="go2batch-editor go2phone-editor">前往客户端添加支出</span></p>
                 </div>
                 <div class="payout-tabal">
                     <el-table
@@ -55,6 +55,70 @@
                       </el-table>
                 </div>
             </div>
+
+            <div class="detail-item">
+                <div class="detail-item-title"><span class="vertical-line-b">&nbsp;</span>采购清单</div>
+                <div class="payout-tabal">
+                    <el-table
+                        :data="tableData2"
+                        stripe
+                        style="width: 100%">
+                        <el-table-column
+                          label="商品名称"
+                          width="280">
+                          <template scope="scope">
+                              <el-row :gutter="20">
+                                  <el-col :span="10">
+                                      <div class="img-box">{{scope.row.img}}</div>
+                                  </el-col>
+                                  <el-col :span="14">
+                                      <p>{{scope.row.product}}</p>
+                                      <el-button plain>{{scope.row.color}}</el-button>
+                                  </el-col>
+                              </el-row>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          prop="price"
+                          label="进货单价"
+                          align="center">
+                        </el-table-column>
+                        <el-table-column
+                          prop="paied"
+                          align="center"
+                          label="已支付">
+                        </el-table-column>
+                        <el-table-column
+                          align="center"
+                          prop="shouldpay"
+                          label="还应支付">
+                        </el-table-column>
+                        <el-table-column
+                          prop="receive"
+                          align="center"
+                          label="已到货">
+                        </el-table-column>
+                        <el-table-column
+                          prop="shouldreceive"
+                          align="center"
+                          label="应到货">
+                        </el-table-column>
+                        <el-table-column
+                          prop="total"
+                          align="center"
+                          label="进货总数">
+                        </el-table-column>
+                        <el-table-column
+                          prop="operate"
+                          align="center"
+                          label="操作">
+                          <template scope="scope">
+                              <el-button type="text">查看到货</el-button>
+                          </template>
+                        </el-table-column>
+                      </el-table>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -80,6 +144,29 @@
               money: '¥200.00',
               detail: '无',
               backup: '退换损失'
+            }],
+            tableData2: [{
+              product: 'FENDI男士腰带',
+              color: '白色',
+              img: 'img1',
+              price: '¥1,900.00',
+              paied: '¥900.00',
+              shouldpay: '¥10,000.00',
+              receive: '2',
+              shouldreceive: '5',
+              total: '10',
+              operate: ''
+            },{
+              product: 'FENDI男士包包',
+              color: '如图色',
+              img: 'img2',
+              price: '¥2,860.00',
+              paied: '¥0.00',
+              shouldpay: '¥1,000.00',
+              receive: '0',
+              shouldreceive: '1',
+              total: '5',
+              operate: ''
             }]
           }
         }
@@ -100,6 +187,7 @@
     }
     .detail-item-title {
         font-size: 16px;
+        margin: 20px 0;
     }
     .vertical-line-b {
         border-left: 4px solid #ccc;
@@ -123,5 +211,17 @@
         border: 1px solid #ddd;
         margin: 20px 0;
         color: rgb(153, 153, 153);
+    }
+    .go2phone-editor {
+        width: 200px;
+        background: #999;
+    }
+    .img-box {
+        width: 100px;
+        height: 100px;
+        background: #ccc;
+    }
+    .el-row {
+        padding: 10px 0;
     }
 </style>
