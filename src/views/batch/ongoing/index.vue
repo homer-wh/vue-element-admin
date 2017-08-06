@@ -1,5 +1,5 @@
 <template>
   <div class="components-container">
-    <code>批次 进行中</code>
+    <code>创建批次</code>
   </div>
 </template>

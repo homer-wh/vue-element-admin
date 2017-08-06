@@ -165,9 +165,8 @@ export const asyncRouterMap = [
     name: '批次管理',
     icon: 'zonghe',
     children: [
-      { path: 'index', component: All, name: '全部' },
-      { path: 'ongoing', component: Ongoing, name: '进行中' },
-      { path: 'done', component: Done, name: '已结束' }
+      { path: 'index', component: All, name: '批次管理' },
+      { path: 'ongoing', component: Ongoing, name: '创建批次' }
     ]
   },
   {
