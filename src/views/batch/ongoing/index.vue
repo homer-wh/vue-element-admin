@@ -119,9 +119,4 @@
         width: 200px;
         background: #999;
     }
-    .img-box {
-        width: 100px;
-        height: 100px;
-        background: #ccc;
-    }
 </style>
