@@ -4,9 +4,9 @@
     <div class="shop-box">
         <el-row :gutter="20">
           <el-col class="left-box" :span="10">
-            <div class="img-box">
+            <div class="img-box img-box-mask">
                 <img :src="shop_bg" alt="">
-                <div class="abs-box" @click="showEditor">编辑</div>
+                <div class="abs-box abs-box-mask" @click="showEditor">&nbsp;</div>
             </div>
           </el-col>
           <el-col :span="14">
@@ -130,11 +130,36 @@
         font-size: 20px;
         text-align: center;
         color: #fff;
-        background: rgba(0, 0, 0, .7);
-        opacity: 0;
+        background: url('../../../assets/shop_images/header_bg.png');
+        z-index: 2;
     }
-    .img-box:hover .abs-box {
-        opacity: 1;
+    .abs-box-mask::after {
+        position: absolute;
+        content: '编辑';
+        display: none;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, .7);
+        color: #fff;
+        font-size: 20px;
+        line-height: 117px;
+        z-index: 3;
+    }
+    .img-box:hover .abs-box-mask::after {
+        display: block;
+    }
+    .img-box-mask::after {
+        display: block;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .7);
+        z-index: 1;
     }
     .abs-box:hover {
         cursor: pointer;
