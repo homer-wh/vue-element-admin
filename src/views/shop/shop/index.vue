@@ -4,9 +4,9 @@
     <div class="shop-box">
         <el-row :gutter="20">
           <el-col class="left-box" :span="10">
-            <div class="img-box img-box-mask">
+            <div class="img-box" v-bind:class="{ img_box_mask: isTabs }">
                 <img :src="shop_bg" alt="">
-                <div class="abs-box abs-box-mask" @click="showEditor">&nbsp;</div>
+                <div class="abs-box" v-bind:class="{ abs_box_mask: !isTabs }" @click="showEditor">&nbsp;</div>
             </div>
           </el-col>
           <el-col :span="14">
@@ -29,6 +29,7 @@
                                   class="avatar-uploader"
                                   action="https://jsonplaceholder.typicode.com/posts/"
                                   :show-file-list="false"
+                                  :auto-upload="false"
                                   :on-success="handleAvatarSuccess"
                                   :before-upload="beforeAvatarUpload">
                                   <img v-if="imageUrl" :src="imageUrl" class="avatar">
@@ -50,6 +51,7 @@
                                 <el-upload
                                   class="logo-uploader"
                                   action="https://jsonplaceholder.typicode.com/posts/"
+                                  :auto-upload="false"
                                   :show-file-list="false"
                                   :on-success="handleAvatarSuccess"
                                   :before-upload="beforeAvatarUpload">
@@ -133,7 +135,7 @@
         background: url('../../../assets/shop_images/header_bg.png');
         z-index: 2;
     }
-    .abs-box-mask::after {
+    .abs_box_mask::after {
         position: absolute;
         content: '编辑';
         display: none;
@@ -147,10 +149,10 @@
         line-height: 117px;
         z-index: 3;
     }
-    .img-box:hover .abs-box-mask::after {
+    .img-box:hover .abs_box_mask::after {
         display: block;
     }
-    .img-box-mask::after {
+    .img_box_mask::after {
         display: block;
         content: '';
         position: absolute;
