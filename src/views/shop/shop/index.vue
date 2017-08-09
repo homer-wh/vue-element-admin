@@ -26,7 +26,7 @@
                         <div class="upload-box">
                             <div class="uploader-border">
                                 <el-upload
-                                  class="avatar-uploader"
+                                  class="avatar-uploader avatar_hover"
                                   action="https://jsonplaceholder.typicode.com/posts/"
                                   :show-file-list="false"
                                   :auto-upload="false"
@@ -49,7 +49,7 @@
                         <div class="upload-box">
                             <div class="uploader-border-circle">
                                 <el-upload
-                                  class="logo-uploader"
+                                  class="logo-uploader logo_hover"
                                   action="https://jsonplaceholder.typicode.com/posts/"
                                   :auto-upload="false"
                                   :show-file-list="false"
@@ -81,7 +81,8 @@
                 shop_bg,
                 isTabs: false,
                 imageUrl: '',
-                logoUrl: ''
+                logoUrl: '',
+                isImg: false
             }
         },
         methods: {
@@ -90,6 +91,7 @@
             },
             handleAvatarSuccess(res, file) {
                 this.imageUrl = URL.createObjectURL(file.raw);
+                this.isImg = true;
             },
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg';
@@ -255,5 +257,44 @@
         font-size: 20px;
         color: rgb(204, 204, 204);
     }
+    .avatar_hover,
+    .logo_hover {
+        position: relative;
+    }
+    .avatar_hover::after {
+        position: absolute;
+        display: none;
+        content: '点击替换招牌图片';
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        line-height: 105px;
+        font-size: 20px;
+        color: #fff;
+        text-align: center;
+        background: rgba(0, 0, 0, .7);
+    }
+    .logo_hover::after {
+        position: absolute;
+        display: none;
+        content: '点击替换LOGO图片';
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        top: 0;
+        left: 0;
+        line-height: 180px;
+        font-size: 20px;
+        color: #fff;
+        text-align: center;
+        background: rgba(0, 0, 0, .7);
+    }
+
+    .uploader-border:hover .avatar_hover::after,
+    .uploader-border-circle:hover .logo_hover::after {
+        display: block;
+    }
+
 
 </style>
