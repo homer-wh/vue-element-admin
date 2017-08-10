@@ -9,11 +9,16 @@
                 </el-form-item>
 
                 <el-form-item label="进货商">
-                    <el-button type="primary" v-if="!supplychecked" @click="supplychecked = true">点击选择进货商</el-button>
+                    <el-button type="primary" v-if="!supplychecked" @click="dialogFormVisible = true">点击选择进货商</el-button>
                     <div v-else>
                         <el-input v-model="form.supply" style="width:300px;" placeholder="香港大佬"></el-input>
                         <el-button>更改</el-button>
                     </div>
+                    <el-dialog title="选择供应商" :visible.sync="dialogFormVisible">
+                        <div class="supply-wrap">
+
+                        </div>
+                    </el-dialog>
                 </el-form-item>
 
                 <el-form-item label="创建日期">
@@ -60,6 +65,10 @@
               list: '',
               backup: ''
             },
+            supllyform: {
+
+            },
+            dialogFormVisible: false,
             pickerOptions0: {
                 disabledDate(time) {
                     return time.getTime() < Date.now() - 8.64e7;
