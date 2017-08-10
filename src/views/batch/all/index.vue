@@ -16,15 +16,22 @@
 
     <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
 
-      <el-table-column align="center" label="批次号" width="180px">
+      <el-table-column
+        align="center"
+        label="批次号"
+        width="180px">
         <template scope="scope">
           <span>{{scope.row.timestamp | parseTime('P{y}{m}{d}A')}}</span>
-          <div style="margin:5px 0;"></div>
-          <el-button v-if="scope.row.status!='1'" size="small" plain type="primary">进行中
-          </el-button>
-          <el-button v-else size="small" disabled plain type="primary">已结束
-          </el-button>
-          <div style="margin:5px 0;"></div>
+          <div style="text-align:center;margin:10px auto;">
+            <el-tag
+              v-if="scope.row.status!='1'"
+              :type="scope.row.status != '1' ? 'primary' : 'gray'"
+              close-transition>进行中</el-tag>
+            <el-tag
+              v-else
+              :type="scope.row.status != '1' ? 'primary' : 'gray'"
+              close-transition>已结束</el-tag>
+          </div>
         </template>
       </el-table-column>
 
@@ -172,6 +179,9 @@
       }
     },
     methods: {
+      filterTag(value, row) {
+        return row.status === value;
+      },
       getList() {
         this.listLoading = true;
         fetchList(this.listQuery).then(response => {
