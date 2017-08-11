@@ -15,9 +15,15 @@
                         <el-button>更改</el-button>
                     </div>
                     <el-dialog title="选择供应商" :visible.sync="dialogFormVisible">
-                        <div class="supply-wrap">
-
+                        <div class="supply-container">
+                            <div class="supply-wrap" v-for="item in supplyobj">
+                                <div class="abc-title">{{item.title}}</div>
+                                <ul class="supply-lists">
+                                    <li class="supply-list-item" v-for="list in item.value">{{list}}</li>
+                                </ul>
+                            </div>
                         </div>
+
                     </el-dialog>
                 </el-form-item>
 
@@ -65,9 +71,21 @@
               list: '',
               backup: ''
             },
-            supllyform: {
+            supplyobj: [
+                {
+                    title: 'A',
+                    value: ['ACNE STUDIOS',' Alaia','ALEXANDER MCQUEEN 亚历山大·麦昆','ACNE STUDIOS','Alaia','ALEXANDER MCQUEEN 亚历山大·麦昆']
+                },
+                {
+                    title: 'B',
+                    value: ['BCNE STUDIOS',' Alaia','BLEXANDER MCQUEEN 亚历山大·麦昆','ACNE STUDIOS','Alaia','BLEXANDER MCQUEEN 亚历山大·麦昆']
+                },
+                {
+                    title: 'C',
+                    value: ['BCNE STUDIOS',' Alaia','BLEXANDER MCQUEEN 亚历山大·麦昆','ACNE STUDIOS','Alaia','BLEXANDER MCQUEEN 亚历山大·麦昆']
+                }
 
-            },
+            ],
             dialogFormVisible: false,
             pickerOptions0: {
                 disabledDate(time) {
@@ -127,5 +145,23 @@
     .go2phone-editor {
         width: 200px;
         background: #999;
+    }
+    .supply-container {
+        border: 1px solid #ddd;
+        height: 500px;
+        overflow-y: auto;
+    }
+    .supply-wrap {
+
+    }
+    .supply-lists {
+        list-style: none;
+        padding: 0;
+        padding-left: 20px;
+    }
+    .abc-title {
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding-left: 20px;
     }
 </style>
