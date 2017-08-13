@@ -7,7 +7,9 @@
                   <el-button slot="prepend" icon="search"></el-button>
               </el-input>
               <div class="commodity-add">
-                <el-button type="primary">添加商品源</el-button>
+                <router-link to="/commodity/index/addcommodity">
+                  <el-button type="primary">添加商品源</el-button>
+                </router-link>
               </div>
             </div>
           <div class="table-header">
@@ -36,7 +38,9 @@
                                   <div class="img-box-table">{{scope.row.img}}</div>
                               </el-col>
                               <el-col :span="14">
-                                  <p>{{scope.row.product}}</p>
+                                  <router-link to="/commodity/forsale/detail">
+                                      <p>{{scope.row.product}}</p>
+                                  </router-link>
                               </el-col>
                           </el-row>
                       </template>

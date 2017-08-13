@@ -89,7 +89,9 @@
     </div>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" top="35%">
-        <el-button size="large" @click="dialogFormVisible = false">&nbsp;添加商品源&nbsp;</el-button>
+        <router-link to="/commodity/index/addcommodity">
+            <el-button size="large" @click="dialogFormVisible = false">&nbsp;添加商品源&nbsp;</el-button>
+        </router-link>
         <el-button size="large" v-if="dialogStatus=='create'" type="primary" @click="dialogFormVisible = false">选择已有商品</el-button>
         <el-button v-else type="primary" @click="update">确 定</el-button>
     </el-dialog>

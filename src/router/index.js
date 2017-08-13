@@ -84,9 +84,14 @@ const Done = _import('batch/done/index')
 const Detail = _import('batch/all/children/index')
 /*commodity*/
 const Resources = _import('commodity/resources/index')
+const ResourcesDetail = _import('commodity/resources/children/index')
+const AddCommodity = _import('commodity/resources/children/add')
 const Forsale = _import('commodity/forsale/index')
+const ForsaleDetail = _import('commodity/forsale/children/index')
 const Unsold = _import('commodity/unsold/index')
+const UnsoldDetail = _import('commodity/unsold/children/index')
 const Sticky = _import('commodity/sticky/index')
+const StickyDetail = _import('commodity/sticky/children/index')
 
 Vue.use(Router);
 
@@ -146,7 +151,7 @@ export const asyncRouterMap = [
     icon: 'theme',
     // meta: { role: ['admin'] },
     noDropdown: true,
-    children: [{ path: 'index', component: Profile, name: '个人资料'/*, meta: { role: ['admin'] }*/ }]
+    children: [{ path: 'index', component: Profile, name: '个人资料详情'/*, meta: { role: ['admin'] }*/ }]
   },
   {
     path: '/shop',
@@ -166,8 +171,8 @@ export const asyncRouterMap = [
     name: '批次管理',
     icon: 'zonghe',
     children: [
-      { path: 'index', component: All, name: '批次管理'},
-      {path: 'detail', component: Detail, name: '查看详情', hidden: true},
+      { path: 'index', component: All, name: '批次管理详情'},
+      {path: 'detail', component: Detail, name: '查看批次详情', hidden: true},
       { path: 'ongoing', component: Ongoing, name: '创建批次' }
     ]
   },
@@ -178,10 +183,15 @@ export const asyncRouterMap = [
     name: '商品管理',
     icon: 'zujian',
     children: [
-      { path: 'index', component: Resources, name: '商品源' },
+      { path: 'index', component: Resources, name: '商品源'},
+      {path: 'index/detail', component: ResourcesDetail, name: '查看详情1', hidden: true},
+      {path: 'index/addcommodity', component: AddCommodity, name: '添加商品源', hidden: true},
       { path: 'forsale', component: Forsale, name: '出售中' },
+      {path: 'forsale/detail', component: ForsaleDetail, name: '查看详情2', hidden: true},
       { path: 'unsold', component: Unsold, name: '未出售' },
+      {path: 'unsold/detail', component: UnsoldDetail, name: '查看详情3', hidden: true},
       { path: 'sticky', component: Sticky, name: '库存' },
+      {path: 'sticky/detail', component: StickyDetail, name: '查看详情4', hidden: true},
     ]
   },
   //  {

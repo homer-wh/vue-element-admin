@@ -66,7 +66,9 @@
                     <span class="vertical-line-b">&nbsp;</span>采购清单
                     <div class="add-product-btns">
                         <el-button type="primary" size="large" @click="dialogChooseProductVisible = true">选择已有商品</el-button>
-                        <el-button type="primary" size="large">添加商品源</el-button>
+                        <router-link to="/commodity/index/addcommodity">
+                            <el-button type="primary" size="large">添加商品源</el-button>
+                        </router-link>
                     </div>
                 </div>
 
@@ -236,7 +238,9 @@
                         </el-table>
                     </div>
                     <div class="add-product-btn-box">
-                        <el-button type="primary" size="large">添加商品源</el-button>
+                        <router-link to="/commodity/index/addcommodity">
+                            <el-button type="primary" size="large">添加商品源</el-button>
+                        </router-link>
                     </div>
                     <div class="besure-choose">
                         <el-button type="primary" plain size="large" @click="dialogChooseProductVisible = false">&nbsp;&nbsp;&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
@@ -464,7 +468,7 @@
         font-size: 16px;
         margin: 20px 0;
     }
-    .detail-item-title-biggap {
+    .detail-item-title.detail-item-title-biggap {
         margin-bottom: 40px;
     }
     .vertical-line-b {
@@ -588,6 +592,7 @@
         overflow-y: auto;
     }
     .add-product-btn-box {
+        text-align: left;
         margin: 20px 0;
     }
 </style>
