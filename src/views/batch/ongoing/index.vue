@@ -181,8 +181,8 @@
                         </div>
                     </div>
                     <div class="besure-choose">
-                        <el-button type="primary" plain size="large" @click="dialogFormVisible = false">&nbsp;&nbsp;&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
-                        <el-button type="primary" size="large" @click="sureAboutChoose">&nbsp;&nbsp;&nbsp;&nbsp;确&nbsp;&nbsp;定&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                        <el-button type="primary" plain size="large" @click="dialogEditNumVisible = false">&nbsp;&nbsp;&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                        <el-button type="primary" size="large" @click="saveEditProductNums">&nbsp;&nbsp;&nbsp;&nbsp;保&nbsp;&nbsp;存&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
                     </div>
 
                 </el-dialog>
@@ -316,7 +316,7 @@
                     }
                 }
                 if(!added) {
-                    this.tableData4[0].products.push({size: item, nums: 0})
+                    this.tableData4[0].products.push({size: item, nums: 1})
                 } else {
                     this.$message({
                         message: '该尺寸已添加',
@@ -324,6 +324,14 @@
                     });
                 }
 
+            },
+            saveEditProductNums() {
+                var total = 0
+                for(var i = 0; i < this.tableData4[0].products.length; i++) {
+                    total += this.tableData4[0].products[i].nums
+                }
+                console.log(total)
+                this.dialogEditNumVisible = false
             }
         }
       }
