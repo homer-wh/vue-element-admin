@@ -101,20 +101,91 @@
                               prop="price"
                               label="进货单价"
                               align="center">
+                              <template scope="scope">
+                                <el-input v-show="scope.row.edit" size="small" v-model="scope.row.price"></el-input>
+                                <span v-show="!scope.row.edit">{{ scope.row.price }}</span>
+                              </template>
                             </el-table-column>
                             <el-table-column
                               prop="operate"
                               align="center"
                               label="操作">
                               <template scope="scope">
-                                  <div><el-button type="text">编辑进货数量</el-button></div>
-                                  <div><el-button type="text">编辑进货单价</el-button></div>
+                                  <div><el-button type="text" @click="dialogEditNumVisible = true">编辑进货数量</el-button></div>
+                                  <div>
+                                        <el-button v-show='!scope.row.edit' type="text" @click='scope.row.edit=true'>编辑进货单价</el-button>
+                                        <el-button v-show='scope.row.edit' type="primary" @click='scope.row.edit=false' size="small" icon="check">完成</el-button>
+                                  </div>
                                   <div><el-button type="text">移除</el-button></div>
                               </template>
                             </el-table-column>
                         </el-table>
                     </div>
                 </el-form-item>
+
+                <el-dialog title="编辑进货数量" :visible.sync="dialogEditNumVisible" top="5%">
+
+                    <el-table
+                        :data="tableData4"
+                        stripe
+                        style="width: 100%">
+                        <el-table-column
+                          label="商品名称"
+                          width="280">
+                          <template scope="scope">
+                              <el-row class="table-el-row" :gutter="20">
+                                  <el-col :span="10">
+                                      <div class="img-box-table">{{scope.row.img}}</div>
+                                  </el-col>
+                                  <el-col :span="14">
+                                      <p>{{scope.row.product}}</p>
+                                      <el-button plain>{{scope.row.color}}</el-button>
+                                  </el-col>
+                              </el-row>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          prop="color"
+                          align="center"
+                          label="颜色">
+                        </el-table-column>
+                        <el-table-column
+                          prop="size"
+                          align="center"
+                          label="尺寸">
+                          <template scope="scope">
+                              <div class="edit-products-size" v-for="item in scope.row.products">{{item.size}}</div>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          prop="nums"
+                          label="数量"
+                          align="center">
+                          <template scope="scope">
+                            <div v-for="item in scope.row.products">
+                                <el-input class="edit-products-num" size="small" v-model="item.nums"></el-input>
+                            </div>
+                          </template>
+                        </el-table-column>
+                    </el-table>
+
+                    <div class="add-supply">
+                        <p>尺寸:</p>
+                        <div class="size-tags">
+                            <span v-for="(item, index) in sizeTags" :key="index" @click="addNewTabelItem(item)">
+                                <el-tag class="size-tag-item" color="#20a0ff" :closable="index > 3" @close.stop="handleClose(index)">{{item}}</el-tag>
+                            </span>
+                        </div>
+                        <div class="add-size-tag">
+                            <el-input class="add-size-name" v-model="addAnotherTag" placeholder="自定义属性"></el-input><el-button type="primary" @click="createNewTag">新建</el-button>
+                        </div>
+                    </div>
+                    <div class="besure-choose">
+                        <el-button type="primary" plain size="large" @click="dialogFormVisible = false">&nbsp;&nbsp;&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                        <el-button type="primary" size="large" @click="sureAboutChoose">&nbsp;&nbsp;&nbsp;&nbsp;确&nbsp;&nbsp;定&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                    </div>
+
+                </el-dialog>
 
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
@@ -154,6 +225,7 @@
 
             ],
             dialogFormVisible: false,
+            dialogEditNumVisible: false,
             pickerOptions0: {
                 disabledDate(time) {
                     return time.getTime() < Date.now() - 8.64e7;
@@ -166,15 +238,30 @@
               img: 'img1',
               price: '¥1,900.00',
               total: '10',
-              operate: ''
+              operate: '',
+              edit: false
             },{
               product: 'FENDI男士包包',
               color: '如图色',
               img: 'img2',
               price: '¥2,860.00',
               total: '5',
-              operate: ''
-            }]
+              operate: '',
+              edit: false
+            }],
+            tableData4: [{
+              product: 'FENDI男士腰带',
+              color: '白色',
+              img: 'img1',
+              products: [
+                {size: 'S', nums: 3},
+                {size: 'M', nums: 3},
+                {size: 'L', nums: 3},
+                {size: 'XL', nums: 3}
+              ]
+            }],
+            sizeTags: ['S', 'M', 'L', 'XL'],
+            addAnotherTag: ''
           }
         },
         computed: {
@@ -205,6 +292,38 @@
                         type: 'warning'
                     });
                 }
+            },
+            createNewTag() {
+                if(this.addAnotherTag) {
+                    this.sizeTags.push(this.addAnotherTag)
+                    this.addAnotherTag = ''
+                } else {
+                    this.$message({
+                        message: '请输入新建尺寸属性',
+                        type: 'warning'
+                    });
+                }
+            },
+            handleClose(index) {
+                this.sizeTags.splice(index, 1)
+            },
+            addNewTabelItem(item) {
+                var added = false
+                for(var i = 0; i < this.tableData4[0].products.length; i++) {
+                    if(this.tableData4[0].products[i].size == item) {
+                        added = true
+                        break
+                    }
+                }
+                if(!added) {
+                    this.tableData4[0].products.push({size: item, nums: 0})
+                } else {
+                    this.$message({
+                        message: '该尺寸已添加',
+                        type: 'warning'
+                    });
+                }
+
             }
         }
       }
@@ -316,5 +435,32 @@
         border-bottom: 0px;
         padding-left: 20px;
         background-color: #eef1f6;
+    }
+    .edit-products-num {
+        text-align: center;
+        margin: 2px auto;
+    }
+    .edit-products-size {
+        line-height: 34px;
+    }
+    .edit-products-num input {
+        text-align: center;
+    }
+    .size-tags,
+    .add-size-tag {
+        margin: 15px 0;
+    }
+    .size-tag-item {
+        margin: 0 5px;
+        min-width: 60px;
+        height: 30px;
+        line-height: 28px;
+        font-size: 16px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .add-size-name {
+        width: 200px;
+        margin-right: 10px;
     }
 </style>
