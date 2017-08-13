@@ -62,10 +62,58 @@
                     </el-input>
                 </el-form-item>
 
-                <div class="detail-item-title"><span class="vertical-line-b">&nbsp;</span>采购清单</div>
+                <div class="detail-item-title detail-item-title-biggap">
+                    <span class="vertical-line-b">&nbsp;</span>采购清单
+                    <div class="add-product-btns">
+                        <el-button type="primary" size="large">选择已有商品</el-button>
+                        <el-button type="primary" size="large">添加商品源</el-button>
+                    </div>
+                </div>
 
                 <el-form-item>
-                    <el-input v-model="form.list"></el-input>
+                    <div class="total-money">预计商品成本支出: ¥ {{computedTotalMoney}}</div>
+                    <div class="buy-table">
+                        <el-table
+                            :data="tableData3"
+                            stripe
+                            style="width: 100%">
+                            <el-table-column
+                              label="商品名称"
+                              width="280">
+                              <template scope="scope">
+                                  <el-row class="table-el-row" :gutter="20">
+                                      <el-col :span="10">
+                                          <div class="img-box-table">{{scope.row.img}}</div>
+                                      </el-col>
+                                      <el-col :span="14">
+                                          <p>{{scope.row.product}}</p>
+                                          <el-button plain>{{scope.row.color}}</el-button>
+                                      </el-col>
+                                  </el-row>
+                              </template>
+                            </el-table-column>
+                            <el-table-column
+                              prop="total"
+                              align="center"
+                              label="进货数量">
+                            </el-table-column>
+                            <el-table-column
+                              prop="price"
+                              label="进货单价"
+                              align="center">
+                            </el-table-column>
+                            <el-table-column
+                              prop="operate"
+                              align="center"
+                              label="操作">
+                              <template scope="scope">
+                                  <div><el-button type="text">编辑进货数量</el-button></div>
+                                  <div><el-button type="text">编辑进货单价</el-button></div>
+                                  <div><el-button type="text">移除</el-button></div>
+                              </template>
+                            </el-table-column>
+                        </el-table>
+                    </div>
                 </el-form-item>
 
                 <el-form-item>
@@ -111,8 +159,33 @@
                     return time.getTime() < Date.now() - 8.64e7;
                 }
             },
-            supplychecked: false
+            supplychecked: false,
+            tableData3: [{
+              product: 'FENDI男士腰带',
+              color: '白色',
+              img: 'img1',
+              price: '¥1,900.00',
+              total: '10',
+              operate: ''
+            },{
+              product: 'FENDI男士包包',
+              color: '如图色',
+              img: 'img2',
+              price: '¥2,860.00',
+              total: '5',
+              operate: ''
+            }]
           }
+        },
+        computed: {
+            computedTotalMoney: function() {
+                var total = 0;
+                for(var i = 0; i < this.tableData3.length; i++) {
+                    var price = parseFloat(this.tableData3[i]['price'].slice(1).split(',').join(''));
+                    total += price * parseInt(this.tableData3[i]['total'])
+                }
+                return total.toFixed(2)
+            }
         },
         methods: {
             onSubmit() {
@@ -152,6 +225,9 @@
     .detail-item-title {
         font-size: 16px;
         margin: 20px 0;
+    }
+    .detail-item-title-biggap {
+        margin-bottom: 40px;
     }
     .vertical-line-b {
         border-left: 4px solid #ccc;
@@ -221,5 +297,24 @@
     }
     .besure-choose {
         text-align: center;
+    }
+    .img-box-table {
+        width: 100px;
+        height: 100px;
+        background: #ccc;
+    }
+    .table-el-row {
+        padding: 10px 0;
+    }
+    .add-product-btns {
+        float: right;
+    }
+    .total-money {
+        line-height: 40px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-bottom: 0px;
+        padding-left: 20px;
+        background-color: #eef1f6;
     }
 </style>
