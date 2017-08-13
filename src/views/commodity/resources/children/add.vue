@@ -1,3 +1,320 @@
 <template>
-    <div>添加商品源</div>
+    <div class="app-container">
+        <div class="detail-title">添加商品源</div>
+        <div class="add-form-box">
+            <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="top" label-width="100px" class="add-ruleForm">
+                <div class="form-group-title">
+                    <span class="vertical-line-b">&nbsp;</span>商品信息
+                </div>
+                <el-form-item label="商品主图" prop="mainImg" required class="add-form-item">
+                    <el-upload
+                      class="mainimg-uploader"
+                      action="https://jsonplaceholder.typicode.com/posts/"
+                      :show-file-list="false"
+                      :on-success="handleAvatarSuccess"
+                      :before-upload="beforeAvatarUpload">
+                      <img v-if="ruleForm.imageUrl" :src="ruleForm.imageUrl" class="mainimg">
+                      <i v-else class="el-icon-plus mainimg-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+
+                <el-form-item label="商品细节图" prop="detaileImg" class="add-form-item">
+                    <el-upload
+                      class="mainimg-uploader"
+                      action="https://jsonplaceholder.typicode.com/posts/"
+                      :show-file-list="false"
+                      :on-success="handleDetailSuccess"
+                      :before-upload="beforeAvatarUpload">
+                      <img v-if="ruleForm.detailImageUrl" :src="ruleForm.detailImageUrl" class="mainimg">
+                      <i v-else class="el-icon-plus mainimg-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+
+                <el-form-item label="商品名称" prop="productName" required class="add-form-item">
+                    <el-input v-model="ruleForm.productName" class="common-width" placeholder="请输入商品名称"></el-input>
+                </el-form-item>
+
+                <el-form-item label="商品品牌" prop="productBrand" required class="add-form-item">
+                    <el-button type="primary" v-if="!brandchecked" @click="dialogBrandFormVisible = true">点击选择品牌</el-button>
+                    <div v-else>
+                        <el-input v-model="ruleForm.productBrand" style="width:300px;" placeholder="FENDI"></el-input>
+                        <el-button @click="dialogBrandFormVisible = true">更改</el-button>
+                    </div>
+
+                    <el-dialog title="商品品牌" :visible.sync="dialogBrandFormVisible" top="5%">
+                        <div class="search-supply">
+                            <el-input placeholder="搜索商品品牌" v-model="searchbrand">
+                                <el-button slot="append" icon="search"></el-button>
+                            </el-input>
+                        </div>
+                        <div class="supply-container">
+                            <div class="supply-wrap" v-for="item in brandobj">
+                                <div class="abc-title">{{item.title}}</div>
+                                <ul class="supply-lists">
+                                    <li class="supply-list-item" @click="chooseABrand(list)" v-for="list in item.value">{{list}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="check-supply">
+                            <p><span class="short-v-line">&nbsp;</span><span class="bold-text">您当前选择的品牌是:</span> {{chosedBrand}}</p>
+                        </div>
+                        <div class="besure-choose">
+                            <el-button type="primary" plain size="large" @click="dialogBrandFormVisible = false">&nbsp;&nbsp;&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                            <el-button type="primary" size="large" @click="sureAboutBrandChoose">&nbsp;&nbsp;&nbsp;&nbsp;确&nbsp;&nbsp;定&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                        </div>
+
+                    </el-dialog>
+                </el-form-item>
+
+                <el-form-item label="商品类目" prop="productClass" required class="add-form-item">
+                    <el-input v-model="ruleForm.productClass" class="common-width" placeholder="根据商品名称自动匹配到的类目"></el-input>
+                    <el-button type="text" @click="dialogClassFormVisible = true">无合适的类目,手动选择</el-button>
+                    <el-dialog title="商品类目" :visible.sync="dialogClassFormVisible" top="5%">
+                        <div class="search-supply">
+                            <el-input placeholder="搜索商品类目" v-model="searchbrand">
+                                <el-button slot="append" icon="search"></el-button>
+                            </el-input>
+                        </div>
+                        <div class="supply-container">
+                            <el-row :gutter="20">
+                              <el-col :span="8"><div class="grid-content"></div></el-col>
+                              <el-col :span="8"><div class="grid-content"></div></el-col>
+                              <el-col :span="8"><div class="grid-content"></div></el-col>
+                            </el-row>
+                        </div>
+                        <div class="check-supply">
+                            <p><span class="short-v-line">&nbsp;</span><span class="bold-text">您当前选择的商品类目是:</span> {{chosedClass}}</p>
+                        </div>
+                        <div class="besure-choose">
+                            <el-button type="primary" plain size="large" @click="dialogClassFormVisible = false">&nbsp;&nbsp;&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                            <el-button type="primary" size="large" @click="sureAboutClassChoose">&nbsp;&nbsp;&nbsp;&nbsp;确&nbsp;&nbsp;定&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                        </div>
+
+                    </el-dialog>
+                </el-form-item>
+
+                <el-form-item label="商品规格" prop="productSpecify" required class="add-form-item">
+                    <div class="specify-item">
+                        <p>颜色</p>
+                        <div class="size-tags">
+                            <span v-for="(item, index) in tagsOfSize" :key="index" @click="addNewCpecifyItem(item)">
+                                <el-tag class="size-tag-item" color="#20a0ff" :closable="index > 3" @close.stop="handleTagClose(index)">{{item}}</el-tag>
+                            </span>
+                        </div>
+                        <div class="add-size-tag">
+                            <el-input class="add-size-name" v-model="addMoreSizeTag" placeholder="自定义属性"></el-input><el-button type="primary" @click="createNewSizeTag">新建</el-button>
+                        </div>
+                    </div>
+                </el-form-item>
+
+            </el-form>
+        </div>
+
+
+
+    </div>
 </template>
+<script>
+    export default {
+        data() {
+          return {
+              ruleForm: {
+                imageUrl: '',
+                detailImageUrl: '',
+                productName: '',
+                productBrand: '',
+                productClass: '',
+              },
+              brandobj: [
+                  {
+                      title: 'A',
+                      value: ['ACNE STUDIOS',' Alaia','ALEXANDER MCQUEEN 亚历山大·麦昆','ACNE STUDIOS','Alaia','ALEXANDER MCQUEEN 亚历山大·麦昆']
+                  },
+                  {
+                      title: 'B',
+                      value: ['BCNE STUDIOS',' Alaia','BLEXANDER MCQUEEN 亚历山大·麦昆','ACNE STUDIOS','Alaia','BLEXANDER MCQUEEN 亚历山大·麦昆']
+                  },
+                  {
+                      title: 'C',
+                      value: ['BCNE STUDIOS',' Alaia','BLEXANDER MCQUEEN 亚历山大·麦昆','ACNE STUDIOS','Alaia','BLEXANDER MCQUEEN 亚历山大·麦昆']
+                  }
+
+              ],
+              tagsOfSize: ['S', 'M', 'L', 'XL'],
+              chosedBrand: '',
+              chosedClass: '',
+              brandchecked: false,
+              dialogBrandFormVisible: false,
+              dialogClassFormVisible: false,
+              searchbrand: '',
+              addMoreSizeTag: '',
+              rules: {
+
+              }
+          }
+        },
+        methods: {
+            handleAvatarSuccess(res, file) {
+                this.imageUrl = URL.createObjectURL(file.raw);
+            },
+            handleDetailSuccess(res, file) {
+                this.detailImageUrl = URL.createObjectURL(file.raw);
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                  this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                  this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            },
+            chooseABrand(str) {
+                this.chosedBrand = str;
+            },
+            sureAboutBrandChoose() {
+                if(this.chosedBrand) {
+                    this.ruleForm.productBrand = this.chosedBrand;
+                    this.dialogBrandFormVisible = false;
+                    this.brandchecked = true;
+                } else {
+                    this.$message({
+                        message: '请选择供应商',
+                        type: 'warning'
+                    });
+                }
+            },
+            sureAboutClassChoose() {
+                if(this.chosedClass) {
+                    this.ruleForm.productClass = this.chosedClass;
+                    this.dialogClassFormVisible = false;
+                    // this.classchecked = true;
+                } else {
+                    this.$message({
+                        message: '请选择商品类目',
+                        type: 'warning'
+                    });
+                }
+            },
+            addNewCpecifyItem(item) {
+
+            },
+            handleTagClose(index) {
+                this.tagsOfSize.splice(index, 1)
+            },
+            createNewSizeTag() {
+                if(this.addMoreSizeTag) {
+                    this.tagsOfSize.push(this.addMoreSizeTag)
+                    this.addMoreSizeTag = ''
+                } else {
+                    this.$message({
+                        message: '请输入新建尺寸属性',
+                        type: 'warning'
+                    });
+                }
+            },
+        }
+      }
+</script>
+
+<style>
+    .detail-title {
+        margin: 0 0 30px;
+    }
+    .add-form-box {
+        border: 1px solid #ddd;
+        padding: 40px;
+        font-size: 14px;
+    }
+    .add-form-item {
+        margin: 20px 0;
+    }
+    .form-group-title {
+        font-size: 16px;
+    }
+    .mainimg-uploader .el-upload {
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    .mainimg-uploader .el-upload:hover {
+        border-color: #20a0ff;
+    }
+    .mainimg-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+    .mainimg {
+        width: 178px;
+        height: 178px;
+        display: block;
+    }
+    .vertical-line-b {
+        border-left: 4px solid #ccc;
+    }
+    .common-width {
+        width: 600px;
+    }
+    .search-supply {
+        width: 60%;
+        margin: 0 auto 15px 0;
+    }
+    .supply-container {
+        border: 1px solid #ddd;
+        height: 500px;
+        text-align: left;
+        overflow-y: auto;
+    }
+    .abc-title {
+        border-top: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding-left: 20px;
+    }
+    .supply-lists {
+        list-style: none;
+        padding: 0;
+        padding-left: 20px;
+    }
+    .supply-list-item {
+        cursor: pointer;
+    }
+    .short-v-line {
+        border-left: 2px solid #000;
+    }
+    .bold-text {
+        font-weight: bold;
+    }
+    .besure-choose {
+        text-align: center;
+    }
+    .grid-content {
+        background-color: #eee;
+        height: 400px;
+    }
+    .size-tags,
+    .add-size-tag {
+        margin: 15px 0;
+    }
+    .size-tag-item {
+        margin: 0 5px;
+        min-width: 60px;
+        height: 30px;
+        line-height: 28px;
+        font-size: 16px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .add-size-name {
+        width: 200px;
+        margin-right: 10px;
+    }
+</style>
