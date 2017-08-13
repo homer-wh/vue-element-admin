@@ -65,7 +65,7 @@
                 <div class="detail-item-title detail-item-title-biggap">
                     <span class="vertical-line-b">&nbsp;</span>采购清单
                     <div class="add-product-btns">
-                        <el-button type="primary" size="large">选择已有商品</el-button>
+                        <el-button type="primary" size="large" @click="dialogChooseProductVisible = true">选择已有商品</el-button>
                         <el-button type="primary" size="large">添加商品源</el-button>
                     </div>
                 </div>
@@ -116,14 +116,14 @@
                                         <el-button v-show='!scope.row.edit' type="text" @click='scope.row.edit=true'>编辑进货单价</el-button>
                                         <el-button v-show='scope.row.edit' type="primary" @click='scope.row.edit=false' size="small" icon="check">完成</el-button>
                                   </div>
-                                  <div><el-button type="text">移除</el-button></div>
+                                  <div><el-button type="text" @click="handleDelete(scope.$index, scope.row)">移除</el-button></div>
                               </template>
                             </el-table-column>
                         </el-table>
                     </div>
                 </el-form-item>
 
-                <el-dialog title="编辑进货数量" :visible.sync="dialogEditNumVisible" top="5%">
+                <el-dialog title="编辑进货数量" :visible.sync="dialogEditNumVisible" top="15%">
 
                     <el-table
                         :data="tableData4"
@@ -187,6 +187,75 @@
 
                 </el-dialog>
 
+                <el-dialog title="选择已有商品" :visible.sync="dialogChooseProductVisible" top="5%">
+                    <div class="search-supply">
+                        <el-input placeholder="搜索商品" v-model="searchprodutclist">
+                            <el-button slot="append" icon="search"></el-button>
+                        </el-input>
+                    </div>
+                    <div class="fixed-height-box">
+                        <el-table
+                            ref="multipleTable"
+                            :data="tableData5"
+                            stripe
+                            @selection-change="handleSelectionChange"
+                            style="width: 100%">
+                            <el-table-column
+                                type="selection"
+                                width="55">
+                            </el-table-column>
+                            <el-table-column
+                              label="商品名称"
+                              width="280">
+                              <template scope="scope">
+                                  <el-row class="table-el-row" :gutter="20">
+                                      <el-col :span="10">
+                                          <div class="img-box-table">{{scope.row.img}}</div>
+                                      </el-col>
+                                      <el-col :span="14">
+                                          <p>{{scope.row.product}}</p>
+                                      </el-col>
+                                  </el-row>
+                              </template>
+                            </el-table-column>
+                            <el-table-column
+                              prop="productnum"
+                              label="商品货号"
+                              align="center">
+                            </el-table-column>
+                            <el-table-column
+                              prop="color"
+                              align="center"
+                              label="颜色">
+                            </el-table-column>
+                            <el-table-column
+                              align="center"
+                              prop="date"
+                              label="创建时间">
+                            </el-table-column>
+                        </el-table>
+                    </div>
+                    <div class="add-product-btn-box">
+                        <el-button type="primary" size="large">添加商品源</el-button>
+                    </div>
+                    <div class="besure-choose">
+                        <el-button type="primary" plain size="large" @click="dialogChooseProductVisible = false">&nbsp;&nbsp;&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                        <el-button type="primary" size="large" @click="saveChooseProduct">&nbsp;&nbsp;&nbsp;&nbsp;确&nbsp;&nbsp;定&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                    </div>
+
+                </el-dialog>
+
+                <el-dialog
+                  title="操作确认"
+                  :visible.sync="dialogDeleteConfirmVisible"
+                  size="tiny">
+                  <span>您确认要从批次{{batchNums}}中移除该商品吗？</span>
+                  <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogDeleteConfirmVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="handleDeleteConfirm">确 定</el-button>
+                  </span>
+                </el-dialog>
+
                 <el-form-item>
                     <el-button type="primary" @click="onSubmit">立即创建</el-button>
                     <el-button>取消</el-button>
@@ -208,6 +277,7 @@
               backup: ''
             },
             searchsupply: '',
+            searchprodutclist: '',
             chosedSupply: '',
             supplyobj: [
                 {
@@ -226,6 +296,9 @@
             ],
             dialogFormVisible: false,
             dialogEditNumVisible: false,
+            dialogChooseProductVisible: false,
+            dialogDeleteConfirmVisible: false,
+            batchNums: 'P20170517A',
             pickerOptions0: {
                 disabledDate(time) {
                     return time.getTime() < Date.now() - 8.64e7;
@@ -260,8 +333,31 @@
                 {size: 'XL', nums: 3}
               ]
             }],
+            tableData5: [{
+              product: 'FENDI男士腰带',
+              color: '白色',
+              img: 'img1',
+              productnum: 'NKS0059',
+              date: '2017-07-09',
+              operate: ''
+            },{
+              product: 'FENDI男士包包',
+              color: '黑色',
+              img: 'img1',
+              productnum: 'NKS0059',
+              date: '2017-07-09',
+              operate: ''
+            },{
+              product: 'FENDI男士长裤',
+              color: '红色',
+              img: 'img1',
+              productnum: 'NKS0059',
+              date: '2017-07-09',
+              operate: ''
+            }],
             sizeTags: ['S', 'M', 'L', 'XL'],
-            addAnotherTag: ''
+            addAnotherTag: '',
+            confirmDeleteIndex: null
           }
         },
         computed: {
@@ -332,6 +428,21 @@
                 }
                 console.log(total)
                 this.dialogEditNumVisible = false
+            },
+            saveChooseProduct() {
+                console.log('save choose product')
+                this.dialogChooseProductVisible = false
+            },
+            handleDelete(index, row) {
+                this.confirmDeleteIndex = index
+                this.dialogDeleteConfirmVisible = true
+            },
+            handleDeleteConfirm() {
+                this.tableData3.splice(this.confirmDeleteIndex, 1)
+                this.dialogDeleteConfirmVisible = false
+            },
+            handleSelectionChange(val) {
+                this.multipleSelection = val;
             }
         }
       }
@@ -470,5 +581,13 @@
     .add-size-name {
         width: 200px;
         margin-right: 10px;
+    }
+    .fixed-height-box {
+        height: 600px;
+        border: 1px solid #ddd;
+        overflow-y: auto;
+    }
+    .add-product-btn-box {
+        margin: 20px 0;
     }
 </style>

@@ -26,8 +26,7 @@
                     <el-table-column
                         type="selection"
                         width="55">
-                        </el-table-column>
-                    <el-table-column
+                    </el-table-column>
                     <el-table-column
                       label="商品名称"
                       width="280">
