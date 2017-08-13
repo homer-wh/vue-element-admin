@@ -12,16 +12,33 @@
                     <el-button type="primary" v-if="!supplychecked" @click="dialogFormVisible = true">点击选择进货商</el-button>
                     <div v-else>
                         <el-input v-model="form.supply" style="width:300px;" placeholder="香港大佬"></el-input>
-                        <el-button>更改</el-button>
+                        <el-button @click="dialogFormVisible = true">更改</el-button>
                     </div>
-                    <el-dialog title="选择供应商" :visible.sync="dialogFormVisible">
+                    <el-dialog title="选择供应商" :visible.sync="dialogFormVisible" top="5%">
+                        <div class="search-supply">
+                            <el-input placeholder="搜索供应商" v-model="searchsupply">
+                                <el-button slot="append" icon="search"></el-button>
+                            </el-input>
+                        </div>
                         <div class="supply-container">
                             <div class="supply-wrap" v-for="item in supplyobj">
                                 <div class="abc-title">{{item.title}}</div>
                                 <ul class="supply-lists">
-                                    <li class="supply-list-item" v-for="list in item.value">{{list}}</li>
+                                    <li class="supply-list-item" @click="chooseASupply(list)" v-for="list in item.value">{{list}}</li>
                                 </ul>
                             </div>
+                        </div>
+                        <div class="add-supply">
+                            <el-input class="add-supply-input" placeholder="请输入供应商名称" v-model="searchsupply">
+                            </el-input>
+                            <el-button type="primary">新&nbsp;&nbsp;建</el-button>
+                        </div>
+                        <div class="check-supply">
+                            <p><span class="short-v-line">&nbsp;</span><span class="bold-text">您当前选择的供应商是:</span> {{chosedSupply}}</p>
+                        </div>
+                        <div class="besure-choose">
+                            <el-button type="primary" plain size="large" @click="dialogFormVisible = false">&nbsp;&nbsp;&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                            <el-button type="primary" size="large" @click="sureAboutChoose">&nbsp;&nbsp;&nbsp;&nbsp;确&nbsp;&nbsp;定&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
                         </div>
 
                     </el-dialog>
@@ -71,6 +88,8 @@
               list: '',
               backup: ''
             },
+            searchsupply: '',
+            chosedSupply: '',
             supplyobj: [
                 {
                     title: 'A',
@@ -98,6 +117,21 @@
         methods: {
             onSubmit() {
                 console.log('submit!');
+            },
+            chooseASupply(str) {
+                this.chosedSupply = str;
+            },
+            sureAboutChoose() {
+                if(this.chosedSupply) {
+                    this.form.supply = this.chosedSupply;
+                    this.dialogFormVisible = false;
+                    this.supplychecked = true;
+                } else {
+                    this.$message({
+                        message: '请选择供应商',
+                        type: 'warning'
+                    });
+                }
             }
         }
       }
@@ -149,6 +183,7 @@
     .supply-container {
         border: 1px solid #ddd;
         height: 500px;
+        text-align: left;
         overflow-y: auto;
     }
     .supply-wrap {
@@ -159,9 +194,32 @@
         padding: 0;
         padding-left: 20px;
     }
+    .supply-list-item {
+        cursor: pointer;
+    }
     .abc-title {
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
         padding-left: 20px;
+    }
+    .search-supply {
+        width: 60%;
+        margin: 0 auto 15px 0;
+    }
+    .add-supply {
+        text-align: left;
+        margin: 15px auto 25px 0;
+    }
+    .add-supply-input {
+        width: 60%;
+    }
+    .short-v-line {
+        border-left: 2px solid #000;
+    }
+    .bold-text {
+        font-weight: bold;
+    }
+    .besure-choose {
+        text-align: center;
     }
 </style>
