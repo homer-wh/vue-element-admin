@@ -44,7 +44,7 @@
                           prop="detail"
                           label="明细">
                           <template scope="scope">
-                              <el-button type="text">查看支付明细</el-button>
+                              <el-button type="text" @click="dialogPaymentVisible = true">查看支付明细</el-button>
                           </template>
                         </el-table-column>
                         <el-table-column
@@ -55,6 +55,69 @@
                       </el-table>
                 </div>
             </div>
+
+            <el-dialog title="查看支付明细" :visible.sync="dialogPaymentVisible" size="large" top="15%">
+                <el-table
+                    :data="paymentData"
+                    stripe
+                    style="width: 100%">
+                    <el-table-column
+                      label="商品名称"
+                      width="280">
+                      <template scope="scope">
+                          <el-row class="table-el-row" :gutter="20">
+                              <el-col :span="10">
+                                  <div class="img-box-table">{{scope.row.img}}</div>
+                              </el-col>
+                              <el-col :span="14">
+                                  <p>{{scope.row.product}}</p>
+                                  <el-button plain>{{scope.row.color}}</el-button>
+                              </el-col>
+                          </el-row>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="size"
+                      align="center"
+                      label="尺寸">
+                      <template scope="scope">
+                          <div class="edit-products-size" v-for="item in scope.row.products">{{item.size}}</div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="total"
+                      align="center"
+                      label="进货总数">
+                      <template scope="scope">
+                          <div class="edit-products-size" v-for="item in scope.row.products">{{item.total}}</div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="recieved"
+                      label="已到货"
+                      align="center">
+                      <template scope="scope">
+                        <div class="edit-products-size" v-for="item in scope.row.products">{{item.recieved}}</div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="lefted"
+                      label="剩余到货"
+                      align="center">
+                      <template scope="scope">
+                        <div class="edit-products-size" v-for="item in scope.row.products">{{item.lefted}}</div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="shouldRecieved"
+                      label="支付应到货"
+                      align="center">
+                      <template scope="scope">
+                        <div class="edit-products-size" v-for="item in scope.row.products">{{item.shouldRecieved}}</div>
+                      </template>
+                    </el-table-column>
+                </el-table>
+            </el-dialog>
 
             <div class="detail-item">
                 <div class="detail-item-title"><span class="vertical-line-b">&nbsp;</span>采购清单</div>
@@ -167,7 +230,26 @@
               shouldreceive: '1',
               total: '5',
               operate: ''
-            }]
+            }],
+            paymentData: [{
+              product: 'FENDI男士腰带',
+              color: '白色',
+              img: 'img1',
+              products: [
+                {size: 'S', total: 3, recieved: 1, lefted: 2, shouldRecieved: 2},
+                {size: 'M', total: 3, recieved: 1, lefted: 2, shouldRecieved: 2},
+                {size: 'L', total: 3, recieved: 1, lefted: 2, shouldRecieved: 2},
+                {size: 'XL', total: 3, recieved: 0, lefted: 3, shouldRecieved: 1}
+              ]
+            },{
+              product: 'FENDI男包',
+              color: '如图色',
+              img: 'img1',
+              products: [
+                {size: 'M', total: 5, recieved: 2, lefted: 3, shouldRecieved: 3}
+              ]
+            }],
+            dialogPaymentVisible: false
           }
         }
       }
