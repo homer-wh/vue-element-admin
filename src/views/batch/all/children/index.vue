@@ -176,12 +176,91 @@
                           align="center"
                           label="操作">
                           <template scope="scope">
-                              <el-button type="text">查看到货</el-button>
+                              <el-button type="text" @click="dialogRecievedVisible = true">查看到货</el-button>
                           </template>
                         </el-table-column>
                       </el-table>
                 </div>
             </div>
+
+            <el-dialog title="查看到货明细" :visible.sync="dialogRecievedVisible" size="large" top="15%">
+                <el-table
+                    :data="recievedData"
+                    stripe
+                    style="width: 100%">
+                    <el-table-column
+                      label="商品名称"
+                      width="280">
+                      <template scope="scope">
+                          <el-row class="table-el-row" :gutter="20">
+                              <el-col :span="10">
+                                  <div class="img-box-table">{{scope.row.img}}</div>
+                              </el-col>
+                              <el-col :span="14">
+                                  <p>{{scope.row.product}}</p>
+                                  <el-button plain>{{scope.row.color}}</el-button>
+                              </el-col>
+                          </el-row>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="size"
+                      align="center"
+                      label="尺寸">
+                      <template scope="scope">
+                          <div class="edit-products-size" v-for="item in scope.row.products">{{item.size}}</div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="total"
+                      align="center"
+                      label="进货总数">
+                      <template scope="scope">
+                          <div class="edit-products-size" v-for="item in scope.row.products">{{item.total}}</div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="recieved"
+                      label="已到货"
+                      align="center">
+                      <template scope="scope">
+                        <div class="edit-products-size" v-for="item in scope.row.products">{{item.recieved}}</div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="lefted"
+                      label="剩余到货"
+                      align="center">
+                      <template scope="scope">
+                        <div class="edit-products-size" v-for="item in scope.row.products">{{item.lefted}}</div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="shouldRecieved"
+                      label="支付应到货"
+                      align="center">
+                      <template scope="scope">
+                        <div class="edit-products-size" v-for="item in scope.row.products">{{item.shouldRecieved}}</div>
+                      </template>
+                    </el-table-column>
+                    <el-table-column
+                      prop="newRecieved"
+                      label="新到货"
+                      align="center">
+                      <template scope="scope">
+                        <div v-for="item in scope.row.products">
+                            <el-input class="edit-products-num" size="small" v-model="item.newRecieved"></el-input>
+                        </div>
+                      </template>
+                    </el-table-column>
+                </el-table>
+                <div class="save-recieve-box">
+                    <el-button type="primary" plain size="large" @click="dialogRecievedVisible = false">&nbsp;&nbsp;&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                    <el-button type="primary" size="large" @click="saveNewRecieved">&nbsp;保&nbsp;存&nbsp;修&nbsp;改&nbsp;</el-button>
+                </div>
+
+            </el-dialog>
+
         </div>
     </div>
 </template>
@@ -249,7 +328,24 @@
                 {size: 'M', total: 5, recieved: 2, lefted: 3, shouldRecieved: 3}
               ]
             }],
-            dialogPaymentVisible: false
+            recievedData: [{
+              product: 'FENDI男士腰带',
+              color: '白色',
+              img: 'img1',
+              products: [
+                {size: 'S', total: 3, recieved: 1, lefted: 2, shouldRecieved: 2, newRecieved: 0},
+                {size: 'M', total: 3, recieved: 1, lefted: 2, shouldRecieved: 2, newRecieved: 0},
+                {size: 'L', total: 3, recieved: 1, lefted: 2, shouldRecieved: 2, newRecieved: 0},
+                {size: 'XL', total: 3, recieved: 0, lefted: 3, shouldRecieved: 1, newRecieved: 0}
+              ]
+            }],
+            dialogPaymentVisible: false,
+            dialogRecievedVisible: false
+          }
+        },
+        methods: {
+          saveNewRecieved() {
+            this.dialogRecievedVisible = false
           }
         }
       }
@@ -305,5 +401,19 @@
     }
     .table-el-row {
         padding: 10px 0;
+    }
+    .edit-products-num {
+        text-align: center;
+        margin: 2px auto;
+    }
+    .edit-products-num input {
+        text-align: center;
+    }
+    .edit-products-size {
+        line-height: 34px;
+    }
+    .save-recieve-box {
+        text-align: center;
+        margin: 40px 0 20px;
     }
 </style>
