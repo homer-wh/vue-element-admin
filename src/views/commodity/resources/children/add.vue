@@ -95,14 +95,52 @@
 
                 <el-form-item label="商品规格" prop="productSpecify" required class="add-form-item">
                     <div class="specify-item">
-                        <p>颜色</p>
+                        <p>颜色:</p>
                         <div class="size-tags">
-                            <span v-for="(item, index) in tagsOfSize" :key="index" @click="addNewCpecifyItem(item)">
-                                <el-tag class="size-tag-item" color="#20a0ff" :closable="index > 3" @close.stop="handleTagClose(index)">{{item}}</el-tag>
+                            <span v-for="(item, index) in tagsOfColor" :key="index" @click="addNewColorItem(item)">
+                                <el-tag class="size-tag-item" color="#20a0ff" :closable="index > 5" @close.stop="handleColorTagClose(index)">{{item}}</el-tag>
+                            </span>
+                        </div>
+                        <div class="add-size-tag">
+                            <el-input class="add-size-name" v-model="addMoreColorTag" placeholder="自定义属性"></el-input><el-button type="primary" @click="createNewColorTag">新建</el-button>
+                        </div>
+
+                        <p>尺寸:</p>
+                        <div class="size-tags">
+                            <span v-for="(item, index) in tagsOfSize" :key="index" @click="addNewSizeItem(item)">
+                                <el-tag class="size-tag-item" color="#20a0ff" :closable="index > 5" @close.stop="handleSizeTagClose(index)">{{item}}</el-tag>
                             </span>
                         </div>
                         <div class="add-size-tag">
                             <el-input class="add-size-name" v-model="addMoreSizeTag" placeholder="自定义属性"></el-input><el-button type="primary" @click="createNewSizeTag">新建</el-button>
+                        </div>
+
+                        <div>
+                            <el-table
+                                :data="ruleForm.productSpecify"
+                                border
+                                style="width: 600px">
+                                <el-table-column
+                                  prop="color"
+                                  label="颜色"
+                                  align="center"
+                                  width="200">
+                                </el-table-column>
+                                <el-table-column
+                                  prop="size"
+                                  label="尺寸"
+                                  align="center"
+                                  width="200">
+                                </el-table-column>
+                                <el-table-column
+                                  prop="productNum"
+                                  align="center"
+                                  label="货号">
+                                  <template scope="scope">
+                                    <el-input></el-input>
+                                  </template>
+                                </el-table-column>
+                            </el-table>
                         </div>
                     </div>
                 </el-form-item>
@@ -124,6 +162,7 @@
                 productName: '',
                 productBrand: '',
                 productClass: '',
+                productSpecify: [],
               },
               brandobj: [
                   {
@@ -140,7 +179,8 @@
                   }
 
               ],
-              tagsOfSize: ['S', 'M', 'L', 'XL'],
+              tagsOfSize: ['XS','S', 'M', 'L', 'XL', 'XXL'],
+              tagsOfColor: ['绿色', '黑色', '白色', '红色', '黄色', '蓝色'],
               chosedBrand: '',
               chosedClass: '',
               brandchecked: false,
@@ -148,6 +188,8 @@
               dialogClassFormVisible: false,
               searchbrand: '',
               addMoreSizeTag: '',
+              addMoreColorTag: '',
+              temporaryItem: {},
               rules: {
 
               }
@@ -199,16 +241,33 @@
                     });
                 }
             },
-            addNewCpecifyItem(item) {
+            addNewSizeItem(item) {
 
             },
-            handleTagClose(index) {
+            addNewColorItem(item) {
+
+            },
+            handleSizeTagClose(index) {
                 this.tagsOfSize.splice(index, 1)
+            },
+            handleColorTagClose(index) {
+                this.tagsOfColor.splice(index, 1)
             },
             createNewSizeTag() {
                 if(this.addMoreSizeTag) {
                     this.tagsOfSize.push(this.addMoreSizeTag)
                     this.addMoreSizeTag = ''
+                } else {
+                    this.$message({
+                        message: '请输入新建尺寸属性',
+                        type: 'warning'
+                    });
+                }
+            },
+            createNewColorTag() {
+                if(this.addMoreColorTag) {
+                    this.tagsOfColor.push(this.addMoreColorTag)
+                    this.addMoreColorTag = ''
                 } else {
                     this.$message({
                         message: '请输入新建尺寸属性',
