@@ -95,7 +95,7 @@
 
                 <el-form-item label="商品规格" prop="productSpecify" required class="add-form-item">
                     <div class="specify-item">
-                        <p>颜色:</p>
+                        <p>颜色:(只能选择一种颜色)</p>
                         <div class="size-tags">
                             <span v-for="(item, index) in tagsOfColor" :key="index" @click="addNewColorItem(item)">
                                 <el-tag class="size-tag-item" color="#20a0ff" :closable="index > 5" @close.stop="handleColorTagClose(index)">{{item}}</el-tag>
@@ -105,7 +105,7 @@
                             <el-input class="add-size-name" v-model="addMoreColorTag" placeholder="自定义属性"></el-input><el-button type="primary" @click="createNewColorTag">新建</el-button>
                         </div>
 
-                        <p>尺寸:</p>
+                        <p>尺寸:(尺寸可以多选)</p>
                         <div class="size-tags">
                             <span v-for="(item, index) in tagsOfSize" :key="index" @click="addNewSizeItem(item)">
                                 <el-tag class="size-tag-item" color="#20a0ff" :closable="index > 5" @close.stop="handleSizeTagClose(index)">{{item}}</el-tag>
@@ -137,7 +137,7 @@
                                   align="center"
                                   label="货号">
                                   <template scope="scope">
-                                    <el-input></el-input>
+                                    <el-input v-model="scope.row.productNum"></el-input>
                                   </template>
                                 </el-table-column>
                             </el-table>
@@ -186,10 +186,12 @@
               brandchecked: false,
               dialogBrandFormVisible: false,
               dialogClassFormVisible: false,
+              colorchoosed: 'gray',
               searchbrand: '',
               addMoreSizeTag: '',
               addMoreColorTag: '',
-              temporaryItem: {},
+              sizeChoosed: [],
+              temporaryItem: {color: '', size: ''},
               rules: {
 
               }
@@ -242,9 +244,34 @@
                 }
             },
             addNewSizeItem(item) {
+                if(this.temporaryItem.color) {
+                    if(this.sizeChoosed.indexOf(item)) {
+                        this.$message({
+                            message: '该尺寸已被选择',
+                            type: 'warning'
+                        });
+                    } else {
+                        this.temporaryItem.size = item
+                        this.ruleForm.productSpecify.push({color: this.temporaryItem.color, size: this.temporaryItem.size, productNum: ''})
+                        this.sizeChoosed.push(item)
+                    }
 
+                } else {
+                    this.$message({
+                        message: '请先选择商品颜色',
+                        type: 'warning'
+                    });
+                }
             },
             addNewColorItem(item) {
+                if(!this.temporaryItem.color) {
+                    this.temporaryItem.color = item
+                } else {
+                    this.$message({
+                        message: '只能选择一种颜色',
+                        type: 'warning'
+                    });
+                }
 
             },
             handleSizeTagClose(index) {
