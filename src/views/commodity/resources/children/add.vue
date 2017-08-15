@@ -137,7 +137,7 @@
                                   align="center"
                                   label="货号">
                                   <template scope="scope">
-                                    <el-input v-model="scope.row.productNum"></el-input>
+                                    <el-input v-model="scope.row.productNum" size="small"></el-input>
                                   </template>
                                 </el-table-column>
                             </el-table>
@@ -245,7 +245,7 @@
             },
             addNewSizeItem(item) {
                 if(this.temporaryItem.color) {
-                    if(this.sizeChoosed.indexOf(item)) {
+                    if(this.sizeChoosed.indexOf(item) > -1) {
                         this.$message({
                             message: '该尺寸已被选择',
                             type: 'warning'
@@ -267,10 +267,13 @@
                 if(!this.temporaryItem.color) {
                     this.temporaryItem.color = item
                 } else {
-                    this.$message({
-                        message: '只能选择一种颜色',
-                        type: 'warning'
-                    });
+                    if(this.temporaryItem.color != item) {
+                        this.$message({
+                            message: '只能选择一种颜色',
+                            type: 'warning'
+                        });
+                    }
+
                 }
 
             },
