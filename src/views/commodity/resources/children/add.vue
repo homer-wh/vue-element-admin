@@ -145,6 +145,18 @@
                     </div>
                 </el-form-item>
 
+                <div class="product-detail">
+                    <span class="vertical-line-b">&nbsp;</span><em class="require-star">*</em><span class="show-like-label">商品信息</span>
+                    <router-link to="/commodity/index/addcommodity">
+                        <span class="show-like-a"><i class="el-icon-edit"></i>编辑商品详情</span>
+                    </router-link>
+                </div>
+
+                <el-form-item label="商品详情" prop="productDetail" required class="add-form-item">
+
+                </el-form-item>
+
+
             </el-form>
         </div>
 
@@ -405,5 +417,29 @@
     .add-size-name {
         width: 200px;
         margin-right: 10px;
+    }
+    .require-star {
+        font-size: 18px;
+        vertical-align: -3px;
+        color: #f00;
+        margin: 0 3px;
+    }
+    .product-detail {
+        line-height: 80px;
+        border: 1px solid #ddd;
+        border-left: 0;
+        border-right: 0;
+    }
+    .show-like-label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #48576a;
+    }
+    .show-like-a {
+        color: rgb(22, 155, 213);
+        margin: 0 8px;
+    }
+    .show-like-a i {
+        margin: 0 5px;
     }
 </style>
