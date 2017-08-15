@@ -86,6 +86,7 @@ const Detail = _import('batch/all/children/index')
 const Resources = _import('commodity/resources/index')
 const ResourcesDetail = _import('commodity/resources/children/index')
 const AddCommodity = _import('commodity/resources/children/add')
+const EditDetail = _import('commodity/resources/children/detail')
 const Forsale = _import('commodity/forsale/index')
 const ForsaleDetail = _import('commodity/forsale/children/index')
 const Unsold = _import('commodity/unsold/index')
@@ -186,6 +187,7 @@ export const asyncRouterMap = [
       { path: 'index', component: Resources, name: '商品源'},
       {path: 'index/detail', component: ResourcesDetail, name: '查看详情1', hidden: true},
       {path: 'index/addcommodity', component: AddCommodity, name: '添加商品源', hidden: true},
+      {path: 'index/editdetail', component: EditDetail, name: '编辑商品详情', hidden: true},
       { path: 'forsale', component: Forsale, name: '出售中' },
       {path: 'forsale/detail', component: ForsaleDetail, name: '查看详情2', hidden: true},
       { path: 'unsold', component: Unsold, name: '未出售' },

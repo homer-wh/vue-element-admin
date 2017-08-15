@@ -147,7 +147,7 @@
 
                 <div class="product-detail">
                     <span class="vertical-line-b">&nbsp;</span><em class="require-star">*</em><span class="show-like-label">商品信息</span>
-                    <router-link to="/commodity/index/addcommodity">
+                    <router-link to="/commodity/index/editdetail">
                         <span class="show-like-a"><i class="el-icon-edit"></i>编辑商品详情</span>
                     </router-link>
                 </div>
