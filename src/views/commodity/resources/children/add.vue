@@ -383,7 +383,7 @@
         display: block;
     }
     .vertical-line-b {
-        border-left: 4px solid #ccc;
+        border-left: 4px solid #333;
     }
     .common-width {
         width: 600px;

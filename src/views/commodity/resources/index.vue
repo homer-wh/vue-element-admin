@@ -157,7 +157,7 @@
         margin: 20px 0;
     }
     .vertical-line-b {
-        border-left: 4px solid #ccc;
+        border-left: 4px solid #333;
     }
     .bold-text {
         font-weight: 500;
