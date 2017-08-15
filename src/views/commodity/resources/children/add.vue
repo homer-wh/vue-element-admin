@@ -152,7 +152,26 @@
                     </router-link>
                 </div>
 
-                <el-form-item label="商品详情" prop="productDetail" required class="add-form-item">
+                <div class="product-detail no-border">
+                    <span class="vertical-line-b">&nbsp;</span>其他信息
+                </div>
+
+                <el-form-item label="商品备注" prop="productBackup" class="add-form-item">
+                    <el-input
+                      type="textarea"
+                      :autosize="{ minRows: 4, maxRows: 8}"
+                      placeholder="请输入内容"
+                      v-model="ruleForm.productBackup">
+                    </el-input>
+                    <div>
+                        <p>货源</p>
+                        <el-input v-model="ruleForm.productFromCountry" class="product-from-place" placeholder="国家"></el-input>
+                        <el-input v-model="ruleForm.productFromCity" class="product-from-place" placeholder="城市"></el-input>
+                    </div>
+                    <div>
+                        <p><em class="require-star">*</em>运费</p>
+                        <el-input v-model="ruleForm.productTransform" disabled class="product-from-place" placeholder="到付"></el-input>
+                    </div>
 
                 </el-form-item>
 
@@ -174,6 +193,10 @@
                 productName: '',
                 productBrand: '',
                 productClass: '',
+                productBackup: '',
+                productFromCountry: '',
+                productFromCity: '',
+                productTransform: '',
                 productSpecify: [],
               },
               brandobj: [
@@ -430,6 +453,9 @@
         border-left: 0;
         border-right: 0;
     }
+    .product-detail.no-border {
+        border: 0;
+    }
     .show-like-label {
         font-size: 14px;
         font-weight: 700;
@@ -441,5 +467,9 @@
     }
     .show-like-a i {
         margin: 0 5px;
+    }
+    .product-from-place {
+        width: 200px;
+        margin-right: 20px;
     }
 </style>
