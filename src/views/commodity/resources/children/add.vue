@@ -75,11 +75,38 @@
                                 <el-button slot="append" icon="search"></el-button>
                             </el-input>
                         </div>
-                        <div class="supply-container">
+                        <div class="level-container">
                             <el-row :gutter="20">
-                              <el-col :span="8"><div class="grid-content"></div></el-col>
-                              <el-col :span="8"><div class="grid-content"></div></el-col>
-                              <el-col :span="8"><div class="grid-content"></div></el-col>
+                              <el-col :span="8">
+                                <div class="grid-content">
+                                  <div class="level-search-box">
+                                    <el-input size="small" v-model="level1Search" placeholder="搜索一级类目"></el-input>
+                                  </div>
+                                  <ul class="level-list-box">
+                                    <li class="level-list-item" v-for="(item, index) in level1List" @click="level1Click(item, index)">{{item}}<span class="level-right-icon"><i class="el-icon-arrow-right"></i></span></li>
+                                  </ul>
+                                </div>
+                              </el-col>
+                              <el-col :span="8">
+                                <div class="grid-content">
+                                  <div class="level-search-box">
+                                    <el-input size="small" v-model="level2Search" placeholder="搜索二级类目"></el-input>
+                                  </div>
+                                  <ul class="level-list-box">
+                                    <li class="level-list-item" v-for="(item, index) in level2List" @click="level2Click(item, index)">{{item}}<span class="level-right-icon"><i class="el-icon-arrow-right"></i></span></li>
+                                  </ul>
+                                </div>
+                              </el-col>
+                              <el-col :span="8">
+                                <div class="grid-content">
+                                  <div class="level-search-box">
+                                    <el-input size="small" v-model="level3Search" placeholder="搜索三级类目"></el-input>
+                                  </div>
+                                  <ul class="level-list-box">
+                                    <li class="level-list-item" v-for="(item, index) in level3List" @click="level3Click(item, index)">{{item}}<span class="level-right-icon"><i class="el-icon-arrow-right"></i></span></li>
+                                  </ul>
+                                </div>
+                              </el-col>
                             </el-row>
                         </div>
                         <div class="check-supply">
@@ -216,11 +243,89 @@
               ],
               tagsOfSize: ['XS','S', 'M', 'L', 'XL', 'XXL'],
               tagsOfColor: ['绿色', '黑色', '白色', '红色', '黄色', '蓝色'],
+              level1List: [1, 2],
+              level2List: [],
+              level3List: [],
               chosedBrand: '',
               chosedClass: '',
               brandchecked: false,
               dialogBrandFormVisible: false,
               dialogClassFormVisible: false,
+              levelData:[
+                {
+                  level: 1,
+                  children: [
+                    {
+                      level: 11,
+                      children: [
+                        {
+                          level: 111
+                        },
+                        {
+                          level: 112
+                        }
+                      ]
+                    },
+                    {
+                      level: 12,
+                      children: [
+                        {
+                          level: 121
+                        },
+                        {
+                          level: 122
+                        }
+                      ]
+                    }
+
+                  ]
+                },
+                {
+                  level: 2,
+                  children: [
+                    {
+                      level: 21,
+                      children: [
+                        {
+                          level: 211
+                        },
+                        {
+                          level: 212
+                        }
+                      ]
+                    },
+                    {
+                      level: 22,
+                      children: [
+                        {
+                          level: 221
+                        },
+                        {
+                          level: 222
+                        }
+                      ]
+                    }
+
+                  ]
+                },
+              ],
+              level1Search: '',
+              level2Search: '',
+              level3Search: '',
+              levelChoosedObj: [
+                {
+                  Choosedindex: '',
+                  Chooseditem: ''
+                },
+                {
+                  Choosedindex: '',
+                  Chooseditem: ''
+                },
+                {
+                  Choosedindex: '',
+                  Chooseditem: ''
+                },
+              ],
               colorchoosed: 'gray',
               searchbrand: '',
               addMoreSizeTag: '',
@@ -340,6 +445,31 @@
                     });
                 }
             },
+            level1Click(item, index) {
+              this.level2List.splice(0)
+              this.level3List.splice(0)
+              this.levelChoosedObj[0].Chooseditem = item
+              this.levelChoosedObj[0].Choosedindex = index
+              if(this.levelData[index].children) {
+                for(var i = 0; i < this.levelData[index].children.length; i++) {
+                  this.level2List.push(this.levelData[index].children[i].level)
+                }
+              }
+            },
+            level2Click(item, index) {
+              this.level3List.splice(0)
+              this.levelChoosedObj[1].Chooseditem = item
+              this.levelChoosedObj[1].Choosedindex = index
+
+              if(this.levelData[this.levelChoosedObj[0].Choosedindex].children[index].children) {
+                for(var i = 0; i < this.levelData[this.levelChoosedObj[0].Choosedindex].children[index].children.length; i++) {
+                  this.level3List.push(this.levelData[this.levelChoosedObj[0].Choosedindex].children[index].children[i].level)
+                }
+              }
+            },
+            level3Click(item, index) {
+
+            },
         }
       }
 </script>
@@ -398,6 +528,9 @@
         text-align: left;
         overflow-y: auto;
     }
+    .level-container {
+      padding: 20px 0;
+    }
     .abc-title {
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
@@ -421,7 +554,9 @@
         text-align: center;
     }
     .grid-content {
-        background-color: #eee;
+        /* background-color: #eee; */
+        border: 1px solid #ddd;
+        padding: 5px 10px;
         height: 400px;
     }
     .size-tags,
@@ -471,5 +606,23 @@
     .product-from-place {
         width: 200px;
         margin-right: 20px;
+    }
+    .level-search-box {
+      text-align: center;
+    }
+    .level-list-box {
+      list-style: none;
+      padding: 0;
+    }
+    .level-list-item {
+      color: #333;
+      cursor: pointer;
+    }
+    .level-list-item:hover {
+      background-color: #333;
+      color: #fff;
+    }
+    .level-right-icon {
+      float: right;
     }
 </style>
