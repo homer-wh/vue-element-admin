@@ -103,7 +103,7 @@
                                     <el-input size="small" v-model="level3Search" placeholder="搜索三级类目"></el-input>
                                   </div>
                                   <ul class="level-list-box">
-                                    <li class="level-list-item" v-for="(item, index) in level3List" @click="level3Click(item, index)">{{item}}<span class="level-right-icon"><i class="el-icon-arrow-right"></i></span></li>
+                                    <li class="level-list-item" v-for="(item, index) in level3List" @click="level3Click(item, index)">{{item}}</li>
                                   </ul>
                                 </div>
                               </el-col>
@@ -468,6 +468,17 @@
               }
             },
             level3Click(item, index) {
+              this.chosedClass = ''
+              this.levelChoosedObj[2].Chooseditem = item
+              this.levelChoosedObj[2].Choosedindex = index
+              for(var i = 0; i < this.levelChoosedObj.length; i++) {
+                if(i < this.levelChoosedObj.length - 1) {
+                  this.chosedClass += this.levelChoosedObj[i].Chooseditem + '-->'
+                } else {
+                  this.chosedClass += this.levelChoosedObj[i].Chooseditem
+                }
+
+              }
 
             },
         }
