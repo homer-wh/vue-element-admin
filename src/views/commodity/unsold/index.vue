@@ -343,20 +343,6 @@
                     buy: '6000.00',
                     nums: '3',
                     sticky: '1'
-                },
-                {
-                    name: '商品名称2',
-                    price: '9000.00',
-                    buy: '6000.00',
-                    nums: '3',
-                    sticky: '1'
-                },
-                {
-                    name: '商品名称3',
-                    price: '9000.00',
-                    buy: '6000.00',
-                    nums: '3',
-                    sticky: '1'
                 }
             ],
             editMutiplePrice: [

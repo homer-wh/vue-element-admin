@@ -58,14 +58,20 @@
                       prop="stickynum"
                       align="center"
                       label="库存">
+                      <template scope="scope">
+                        <el-input v-show="scope.row.edit" size="small" v-model="scope.row.stickynum"></el-input>
+                        <span v-show="!scope.row.edit">{{ scope.row.stickynum }}</span>
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="operate"
                       align="center"
                       label="操作">
                       <template scope="scope">
-                          <el-button type="text">修改库存</el-button>
-                          <div></div>
+                          <div>
+                              <el-button v-show='!scope.row.edit' type="text" @click='scope.row.edit=true'>修改库存</el-button>
+                              <el-button v-show='scope.row.edit' type="primary" @click='scope.row.edit=false' size="small" icon="check">完成</el-button>
+                          </div>
                           <el-button type="text">查看历史进货价</el-button>
                       </template>
                     </el-table-column>
@@ -98,7 +104,8 @@
               soldnum: '15',
               onsalenum: '5',
               stickynum: '10',
-              operate: ''
+              operate: '',
+              edit: false,
             },{
               product: 'FENDI男士包包',
               img: 'img1',
@@ -107,7 +114,8 @@
               soldnum: '2',
               onsalenum: '2',
               stickynum: '1',
-              operate: ''
+              operate: '',
+              edit: false,
             },{
               product: 'FENDI男士裤子',
               img: 'img1',
@@ -116,7 +124,8 @@
               soldnum: '25',
               onsalenum: '15',
               stickynum: '0',
-              operate: ''
+              operate: '',
+              edit: false,
             }],
             commoditysearch: '',
             currentPage4: 4
