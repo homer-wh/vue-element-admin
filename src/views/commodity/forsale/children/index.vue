@@ -241,9 +241,6 @@ export default {
 .edit-products-num input {
     text-align: center;
 }
-.edit-products-size {
-    line-height: 34px;
-}
 .right-btn-box {
     text-align: right;
 }
