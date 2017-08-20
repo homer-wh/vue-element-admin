@@ -50,6 +50,10 @@
                       prop="saleprice"
                       label="预设售价"
                       align="center">
+                      <template scope="scope">
+                        <el-input v-show="scope.row.priceEdit" size="small" v-model="scope.row.saleprice"></el-input>
+                        <span v-show="!scope.row.priceEdit">{{ scope.row.saleprice }}</span>
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="buyprice"
@@ -65,6 +69,10 @@
                       prop="onsale"
                       align="center"
                       label="预设在售">
+                      <template scope="scope">
+                        <el-input v-show="scope.row.numEdit" size="small" v-model="scope.row.onsale"></el-input>
+                        <span v-show="!scope.row.numEdit">{{ scope.row.onsale }}</span>
+                      </template>
                     </el-table-column>
                     <el-table-column
                       prop="stickynum"
@@ -76,14 +84,65 @@
                       align="center"
                       label="操作">
                       <template scope="scope">
-                          <el-button type="text">修改预设售价</el-button>
-                          <div></div>
-                          <el-button type="text">修改预设在售</el-button>
-                          <div></div>
-                          <el-button type="text">上架</el-button>
+                          <div>
+                              <el-button v-show='!scope.row.priceEdit' type="text" @click='scope.row.priceEdit=true'>修改预设售价</el-button>
+                              <el-button v-show='scope.row.priceEdit' type="primary" @click='scope.row.priceEdit=false' size="small" icon="check">完成</el-button>
+                          </div>
+                          <div>
+                              <el-button v-show='!scope.row.numEdit' type="text" @click='scope.row.numEdit=true'>修改预设在售</el-button>
+                              <el-button v-show='scope.row.numEdit' type="primary" @click='scope.row.numEdit=false' size="small" icon="check">完成</el-button>
+                          </div>
+                          <el-button @click="singleShangJia" type="text">上架</el-button>
                       </template>
                     </el-table-column>
                 </el-table>
+
+                <el-dialog title="上架确认" :visible.sync="dialogShangJiaVisible" size="small" top="15%">
+                    <el-table
+                        :data="editSingleShangJia"
+                        stripe
+                        style="width: 100%">
+                        <el-table-column
+                          label="商品名称"
+                          prop="name"
+                          align="center"
+                          width="">
+                        </el-table-column>
+                        <el-table-column
+                          label="售价"
+                          prop="price"
+                          align="center"
+                          width="">
+                          <template scope="scope">
+                            <el-input class="middle-input" size="small" v-model="scope.row.price"></el-input>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          prop="buy"
+                          align="center"
+                          label="进货均价">
+                        </el-table-column>
+                        <el-table-column
+                          prop="nums"
+                          align="center"
+                          label="在售">
+                          <template scope="scope">
+                            <el-input class="middle-input" size="small" v-model="scope.row.nums"></el-input>
+                          </template>
+                        </el-table-column>
+                        <el-table-column
+                          prop="sticky"
+                          align="center"
+                          label="库存">
+                        </el-table-column>
+                    </el-table>
+                    <div class="save-recieve-box">
+                        <el-button type="primary" plain size="large" @click="dialogShangJiaVisible = false">&nbsp;&nbsp;&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;&nbsp;&nbsp;</el-button>
+                        <el-button type="primary" size="large" @click="saveSingleShangJiaEdit">&nbsp;确&nbsp;认&nbsp;上&nbsp;架&nbsp;</el-button>
+                    </div>
+
+                </el-dialog>
+
 
 
               </div>
@@ -113,7 +172,9 @@
               soldcount: '10',
               onsale: '2',
               stickynum: '5',
-              operate: ''
+              operate: '',
+              priceEdit: false,
+              numEdit: false,
             },{
               product: 'FENDI男士包包',
               img: 'img1',
@@ -122,7 +183,9 @@
               soldcount: '3',
               onsale: '2',
               stickynum: '0',
-              operate: ''
+              operate: '',
+              priceEdit: false,
+              numEdit: false,
             },{
               product: 'FENDI男士裤子',
               img: 'img1',
@@ -131,12 +194,38 @@
               soldcount: '20',
               onsale: '20',
               stickynum: '10',
-              operate: ''
+              operate: '',
+              priceEdit: false,
+              numEdit: false,
             }],
+            editSingleShangJia: [
+                {
+                    name: '商品名称1',
+                    price: '9000.00',
+                    buy: '6000.00',
+                    nums: '3',
+                    sticky: '1'
+                },
+                {
+                    name: '商品名称2',
+                    price: '9000.00',
+                    buy: '6000.00',
+                    nums: '3',
+                    sticky: '1'
+                },
+                {
+                    name: '商品名称3',
+                    price: '9000.00',
+                    buy: '6000.00',
+                    nums: '3',
+                    sticky: '1'
+                }
+            ],
             commoditysearch: '',
             commoditytype: '',
             multipleSelection: [],
-            currentPage4: 4
+            currentPage4: 4,
+            dialogShangJiaVisible: false,
           }
         },
         methods: {
@@ -148,7 +237,13 @@
           },
           handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
-          }
+          },
+          singleShangJia() {
+              this.dialogShangJiaVisible = true
+          },
+          saveSingleShangJiaEdit() {
+              this.dialogShangJiaVisible = false
+          },
         }
       }
 </script>
@@ -220,5 +315,12 @@
     .page-count {
       float: right;
       margin: 20px;
+    }
+    .save-recieve-box {
+        text-align: center;
+        margin: 40px 0 20px;
+    }
+    .middle-input input {
+        text-align: center;
     }
 </style>
