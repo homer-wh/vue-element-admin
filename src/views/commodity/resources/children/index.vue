@@ -37,7 +37,7 @@
                 <span class="label-normal-text">NSK0059</span>
             </div>
             <div class="detail-label-item">
-                <span class="label-bold-text">商品图片: </span>
+                <span class="label-bold-text">商品规格: </span>
                 <div class="label-img-box">
                     <el-table
                         :data="colorASize"
