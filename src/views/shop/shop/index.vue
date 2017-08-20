@@ -26,13 +26,13 @@
                         <div class="upload-box">
                             <div class="uploader-border">
                                 <el-upload
-                                  class="avatar-uploader avatar_hover"
+                                  class="avatar-uploader"
                                   action="https://jsonplaceholder.typicode.com/posts/"
                                   :show-file-list="false"
                                   :auto-upload="false"
                                   :on-success="handleAvatarSuccess"
                                   :before-upload="beforeAvatarUpload">
-                                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                                  <img v-if="imageUrl" :src="imageUrl" class="avatar avatar_hover">
                                   <span v-else class="holder-text">点击上传招牌图片</span>
                                 </el-upload>
                             </div>
@@ -49,13 +49,13 @@
                         <div class="upload-box">
                             <div class="uploader-border-circle">
                                 <el-upload
-                                  class="logo-uploader logo_hover"
+                                  class="logo-uploader"
                                   action="https://jsonplaceholder.typicode.com/posts/"
                                   :auto-upload="false"
                                   :show-file-list="false"
                                   :on-success="handleAvatarSuccess"
                                   :before-upload="beforeAvatarUpload">
-                                  <img v-if="logoUrl" :src="logoUrl" class="logoImg">
+                                  <img v-if="logoUrl" :src="logoUrl" class="logoImg logo_hover">
                                   <span v-else class="holder-text">点击上传LOGO图片</span>
                                 </el-upload>
                             </div>

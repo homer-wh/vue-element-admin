@@ -89,11 +89,11 @@ export const asyncRouterMap = [
     path: '/profile',
     component: Layout,
     redirect: '/profile/index',
-    name: '个人资料',
+    name: '个人资料详情',
     icon: 'theme',
     // meta: { role: ['admin'] },
     noDropdown: true,
-    children: [{ path: 'index', component: Profile, name: '个人资料详情'/*, meta: { role: ['admin'] }*/ }]
+    children: [{ path: 'index', component: Profile, name: '个人资料'/*, meta: { role: ['admin'] }*/ }]
   },
   {
     path: '/shop',
