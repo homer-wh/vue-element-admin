@@ -72,11 +72,58 @@
                               <el-button v-show='!scope.row.edit' type="text" @click='scope.row.edit=true'>修改库存</el-button>
                               <el-button v-show='scope.row.edit' type="primary" @click='scope.row.edit=false' size="small" icon="check">完成</el-button>
                           </div>
-                          <el-button type="text">查看历史进货价</el-button>
+                          <el-button type="text" @click="handleHistoryPrice">查看历史进货价</el-button>
                       </template>
                     </el-table-column>
                   </el-table>
 
+                  <el-dialog title="查看历史进货价" :visible.sync="dialogHistoryPriceVisible" size="small" top="15%">
+                      <div class="product-img-box">
+                          <div class="product-float-img"></div>
+                          <ul class="product-float-text">
+                              <li class="product-text-item">FENDI 男士腰带</li>
+                              <li class="product-text-item">商品货号：NSK0059</li>
+                              <li class="product-text-item">
+                                  <span class="product-nums-item">售价：¥1,980.00</span>
+                                  <span class="product-nums-item">销量：2</span>
+                                  <span class="product-nums-item">在售：10</span>
+                                  <span class="product-nums-item">库存：10</span>
+                              </li>
+                          </ul>
+                      </div>
+                      <el-table
+                          :data="stickyInfo"
+                          stripe
+                          style="width: 100%">
+                          <el-table-column
+                            prop="time"
+                            label="时间"
+                            align="center"
+                            width="">
+                          </el-table-column>
+                          <el-table-column
+                            label="进货价"
+                            prop="buy"
+                            align="center"
+                            width="">
+                          </el-table-column>
+                          <el-table-column
+                            prop="nums"
+                            align="center"
+                            label="进货数量">
+                          </el-table-column>
+                          <el-table-column
+                            prop="batch"
+                            label="对应批次"
+                            align="center">
+                          </el-table-column>
+                      </el-table>
+                      <ul class="product-count-nums">
+                          <li class="product-count-item">进货总价：¥19,600.00</li>
+                          <li class="product-count-item">进货总数：20</li>
+                          <li class="product-count-item">进货均价：¥980.00</li>
+                      </ul>
+                  </el-dialog>
 
               </div>
             <div class="page-count">
@@ -127,8 +174,35 @@
               operate: '',
               edit: false,
             }],
+            stickyInfo: [
+                {
+                    time: '2017-5-19',
+                    buy: '¥1,000.00',
+                    nums: '5',
+                    batch: 'P20170519A'
+                },
+                {
+                    time: '2017-5-25',
+                    buy: '¥1,200.00',
+                    nums: '5',
+                    batch: 'P20170519A'
+                },
+                {
+                    time: '2017-5-19',
+                    buy: '¥900.00',
+                    nums: '5',
+                    batch: 'P20170519A'
+                },
+                {
+                    time: '2017-5-25',
+                    buy: '¥800.00',
+                    nums: '5',
+                    batch: 'P20170519A'
+                },
+            ],
             commoditysearch: '',
-            currentPage4: 4
+            currentPage4: 4,
+            dialogHistoryPriceVisible: false,
           }
         },
         methods: {
@@ -140,6 +214,9 @@
           },
           handleCurrentChange(val) {
             console.log(`当前页: ${val}`);
+          },
+          handleHistoryPrice() {
+              this.dialogHistoryPriceVisible = true
           }
         }
       }
@@ -212,5 +289,38 @@
     .page-count {
       float: right;
       margin: 20px;
+    }
+    .product-float-img {
+        float: left;
+        width: 100px;
+        height: 100px;
+        background: #eee;
+    }
+    .product-float-text {
+        float: left;
+        list-style: none;
+        padding-left: 20px;
+    }
+    .product-text-item {
+        font-size: 14px;
+        color: rgb(102, 102, 102);
+        margin-bottom: 10px;
+    }
+    .product-nums-item {
+        margin-right: 40px;
+    }
+    .product-img-box {
+        margin: 20px 0;
+    }
+    .product-count-nums {
+        margin: 30px 0;
+        list-style: none;
+        padding-left: 0;
+    }
+    .product-count-item {
+        margin: 20px 0;
+        font-size: 18px;
+        font-weight: 400;
+        color: #000;
     }
 </style>
