@@ -613,8 +613,12 @@
         width: 64px;
     }
     .edit-sale-num-tips {
+        text-align: left;
         font-size: 14px;
         color: #333;
         margin: 15px 0;
+    }
+    .edit-way-box {
+        text-align: left;
     }
 </style>

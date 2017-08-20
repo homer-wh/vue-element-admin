@@ -594,4 +594,14 @@
     .edit-way-item {
         margin: 10px 0;
     }
+    .edit-sale-num-tips,
+    .edit-way-box {
+        text-align: left;
+    }
+    .edit-sale-num-tips {
+        text-align: left;
+        font-size: 14px;
+        color: #333;
+        margin: 15px 0;
+    }
 </style>

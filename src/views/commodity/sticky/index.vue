@@ -297,6 +297,7 @@
         background: #eee;
     }
     .product-float-text {
+        text-align: left;
         float: left;
         list-style: none;
         padding-left: 20px;
@@ -313,6 +314,7 @@
         margin: 20px 0;
     }
     .product-count-nums {
+        text-align: left;
         margin: 30px 0;
         list-style: none;
         padding-left: 0;

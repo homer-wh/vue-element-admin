@@ -595,4 +595,7 @@
         text-align: left;
         margin: 20px 0;
     }
+    .check-supply {
+        text-align: left;
+    }
 </style>
