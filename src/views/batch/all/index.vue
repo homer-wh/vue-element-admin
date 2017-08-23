@@ -14,79 +14,230 @@
         </el-input>
     </div>
 
-    <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+    <el-tabs v-model="activeName" @tab-click="handleTabClick">
+        <el-tab-pane label="全部" name="first">
+            <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+              <el-table-column
+                align="center"
+                label="批次号"
+                width="180px">
+                <template scope="scope">
+                  <span>{{scope.row.timestamp | parseTime('P{y}{m}{d}A')}}</span>
+                  <div style="text-align:center;margin:10px auto;">
+                    <el-tag
+                      v-if="scope.row.status!='1'"
+                      :type="scope.row.status != '1' ? 'primary' : 'gray'"
+                      close-transition>进行中</el-tag>
+                    <el-tag
+                      v-else
+                      :type="scope.row.status != '1' ? 'primary' : 'gray'"
+                      close-transition>已结束</el-tag>
+                  </div>
+                </template>
+              </el-table-column>
 
-      <el-table-column
-        align="center"
-        label="批次号"
-        width="180px">
-        <template scope="scope">
-          <span>{{scope.row.timestamp | parseTime('P{y}{m}{d}A')}}</span>
-          <div style="text-align:center;margin:10px auto;">
-            <el-tag
-              v-if="scope.row.status!='1'"
-              :type="scope.row.status != '1' ? 'primary' : 'gray'"
-              close-transition>进行中</el-tag>
-            <el-tag
-              v-else
-              :type="scope.row.status != '1' ? 'primary' : 'gray'"
-              close-transition>已结束</el-tag>
-          </div>
-        </template>
-      </el-table-column>
+              <el-table-column width="180px" align="center" label="创建日期">
+                <template scope="scope">
+                  <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d}')}}</span>
+                </template>
+              </el-table-column>
 
-      <el-table-column width="180px" align="center" label="创建日期">
-        <template scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d}')}}</span>
-        </template>
-      </el-table-column>
+              <el-table-column width="180px" align="center" label="预计成本">
+                <template scope="scope">
+                  <span class="link-type">¥{{scope.row.title}}</span>
+                </template>
+              </el-table-column>
 
-      <el-table-column width="180px" align="center" label="预计成本">
-        <template scope="scope">
-          <span class="link-type">¥{{scope.row.title}}</span>
-        </template>
-      </el-table-column>
+              <el-table-column width="180px" align="center" label="已付金额">
+                <template scope="scope">
+                  <span>{{scope.row.title | randomMoney}}</span>
+                </template>
+              </el-table-column>
 
-      <el-table-column width="180px" align="center" label="已付金额">
-        <template scope="scope">
-          <span>{{scope.row.title | randomMoney}}</span>
-        </template>
-      </el-table-column>
+              <el-table-column width="120px" align="center" label="商品总数">
+                <template scope="scope">
+                  <span>{{scope.row.auditor}}</span>
+                </template>
+              </el-table-column>
 
-      <el-table-column width="120px" align="center" label="商品总数">
-        <template scope="scope">
-          <span>{{scope.row.auditor}}</span>
-        </template>
-      </el-table-column>
+              <el-table-column align="center" label="已到货数量" width="120px">
+                <template scope="scope">
+                  <span class="link-type">{{scope.row.auditor | randomCount}}</span>
+                </template>
+              </el-table-column>
 
-      <el-table-column align="center" label="已到货数量" width="120px">
-        <template scope="scope">
-          <span class="link-type">{{scope.row.auditor | randomCount}}</span>
-        </template>
-      </el-table-column>
+              <el-table-column align="center" label="操作" width="">
+                <template scope="scope">
+                  <el-button v-if="scope.row.status!='1'" size="small" plain type="text" @click="handleModifyStatus(scope.row,'published')">追加支付
+                  </el-button>
+                  <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
+                  <el-button v-if="scope.row.status!='1'" size="small" plain plain type="text" @click="handleCreate">追加采购
+                  </el-button>
+                  <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
+                  <router-link to="/batch/detail">
+                    <el-button v-if="scope.row.status" size="small" plain plain type="text" @click="go2detail">查看详情</el-button>
+                  </router-link>
 
-      <el-table-column align="center" label="操作" width="">
-        <template scope="scope">
-          <el-button v-if="scope.row.status!='1'" size="small" plain type="text" @click="handleModifyStatus(scope.row,'published')">追加支付
-          </el-button>
-          <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
-          <el-button v-if="scope.row.status!='1'" size="small" plain plain type="text" @click="handleCreate">追加采购
-          </el-button>
-          <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
-          <router-link to="/batch/detail">
-            <el-button v-if="scope.row.status" size="small" plain plain type="text" @click="go2detail">查看详情</el-button>
-          </router-link>
+                </template>
+              </el-table-column>
 
-        </template>
-      </el-table-column>
+            </el-table>
 
-    </el-table>
+            <div v-show="!listLoading" class="pagination-container">
+              <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
+                :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+              </el-pagination>
+            </div>
+        </el-tab-pane>
+        <el-tab-pane label="进行中" name="second">
+            <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+              <el-table-column
+                align="center"
+                label="批次号"
+                width="180px">
+                <template scope="scope">
+                  <span>{{scope.row.timestamp | parseTime('P{y}{m}{d}A')}}</span>
+                  <div style="text-align:center;margin:10px auto;">
+                    <el-tag
+                      v-if="scope.row.status!='1'"
+                      :type="scope.row.status != '1' ? 'primary' : 'gray'"
+                      close-transition>进行中</el-tag>
+                    <el-tag
+                      v-else
+                      :type="scope.row.status != '1' ? 'primary' : 'gray'"
+                      close-transition>已结束</el-tag>
+                  </div>
+                </template>
+              </el-table-column>
 
-    <div v-show="!listLoading" class="pagination-container">
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
-        :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
-      </el-pagination>
-    </div>
+              <el-table-column width="180px" align="center" label="创建日期">
+                <template scope="scope">
+                  <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d}')}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column width="180px" align="center" label="预计成本">
+                <template scope="scope">
+                  <span class="link-type">¥{{scope.row.title}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column width="180px" align="center" label="已付金额">
+                <template scope="scope">
+                  <span>{{scope.row.title | randomMoney}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column width="120px" align="center" label="商品总数">
+                <template scope="scope">
+                  <span>{{scope.row.auditor}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column align="center" label="已到货数量" width="120px">
+                <template scope="scope">
+                  <span class="link-type">{{scope.row.auditor | randomCount}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column align="center" label="操作" width="">
+                <template scope="scope">
+                  <el-button v-if="scope.row.status!='1'" size="small" plain type="text" @click="handleModifyStatus(scope.row,'published')">追加支付
+                  </el-button>
+                  <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
+                  <el-button v-if="scope.row.status!='1'" size="small" plain plain type="text" @click="handleCreate">追加采购
+                  </el-button>
+                  <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
+                  <router-link to="/batch/detail">
+                    <el-button v-if="scope.row.status" size="small" plain plain type="text" @click="go2detail">查看详情</el-button>
+                  </router-link>
+
+                </template>
+              </el-table-column>
+
+            </el-table>
+
+            <div v-show="!listLoading" class="pagination-container">
+              <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
+                :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+              </el-pagination>
+            </div>
+        </el-tab-pane>
+        <el-tab-pane label="已结束" name="third">
+            <el-table :key='tableKey' :data="list" v-loading.body="listLoading" border fit highlight-current-row style="width: 100%">
+              <el-table-column
+                align="center"
+                label="批次号"
+                width="180px">
+                <template scope="scope">
+                  <span>{{scope.row.timestamp | parseTime('P{y}{m}{d}A')}}</span>
+                  <div style="text-align:center;margin:10px auto;">
+                    <el-tag
+                      v-if="scope.row.status!='1'"
+                      :type="scope.row.status != '1' ? 'primary' : 'gray'"
+                      close-transition>进行中</el-tag>
+                    <el-tag
+                      v-else
+                      :type="scope.row.status != '1' ? 'primary' : 'gray'"
+                      close-transition>已结束</el-tag>
+                  </div>
+                </template>
+              </el-table-column>
+
+              <el-table-column width="180px" align="center" label="创建日期">
+                <template scope="scope">
+                  <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d}')}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column width="180px" align="center" label="预计成本">
+                <template scope="scope">
+                  <span class="link-type">¥{{scope.row.title}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column width="180px" align="center" label="已付金额">
+                <template scope="scope">
+                  <span>{{scope.row.title | randomMoney}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column width="120px" align="center" label="商品总数">
+                <template scope="scope">
+                  <span>{{scope.row.auditor}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column align="center" label="已到货数量" width="120px">
+                <template scope="scope">
+                  <span class="link-type">{{scope.row.auditor | randomCount}}</span>
+                </template>
+              </el-table-column>
+
+              <el-table-column align="center" label="操作" width="">
+                <template scope="scope">
+                  <el-button v-if="scope.row.status!='1'" size="small" plain type="text" @click="handleModifyStatus(scope.row,'published')">追加支付
+                  </el-button>
+                  <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
+                  <el-button v-if="scope.row.status!='1'" size="small" plain plain type="text" @click="handleCreate">追加采购
+                  </el-button>
+                  <div style="margin=5px 0;" v-if="scope.row.status!='1'"></div>
+                  <router-link to="/batch/detail">
+                    <el-button v-if="scope.row.status" size="small" plain plain type="text" @click="go2detail">查看详情</el-button>
+                  </router-link>
+
+                </template>
+              </el-table-column>
+
+            </el-table>
+
+            <div v-show="!listLoading" class="pagination-container">
+              <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="listQuery.page"
+                :page-sizes="[10,20,30, 50]" :page-size="listQuery.limit" layout="total, sizes, prev, pager, next, jumper" :total="total">
+              </el-pagination>
+            </div>
+        </el-tab-pane>
+    </el-tabs>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" top="35%">
         <router-link to="/commodity/index/addcommodity">
@@ -155,7 +306,8 @@
         dialogPvVisible: false,
         pvData: [],
         showAuditor: false,
-        tableKey: 0
+        tableKey: 0,
+        activeName: 'first',
       }
     },
     created() {
@@ -306,6 +458,9 @@
       },
       go2detail() {
 
+      },
+      handleTabClick(tab, event) {
+          console.log(tab, event);
       }
     }
   }
