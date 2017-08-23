@@ -12,6 +12,7 @@ const authRedirect = _import('login/authredirect');
 
 /* dashboard */
 const dashboard = _import('dashboard/index');
+const newsDetail = _import('dashboard/children/index');
 
 /* error page */
 const Err404 = _import('error/404');
@@ -74,7 +75,10 @@ export const constantRouterMap = [
     redirect: '/dashboard',
     name: '首页',
     hidden: true,
-    children: [{ path: 'dashboard', component: Dashboard}]
+    children: [
+        { path: 'dashboard', component: Dashboard},
+        { path: 'newsdetail', component: newsDetail, name:"公告详情", hidden: true},
+    ]
   },
 ]
 
