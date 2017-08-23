@@ -6,16 +6,24 @@
           <el-col class="left-box" :span="10">
             <div class="img-box" v-bind:class="{ img_box_mask: isTabs }">
                 <img :src="shop_bg" alt="">
-                <div class="abs-box" v-bind:class="{ abs_box_mask: !isTabs }" @click="showEditor">&nbsp;</div>
+                <div class="abs-box" v-if="!isPreview" v-bind:class="{ abs_box_mask: !isTabs }" @click="showEditor">&nbsp;</div>
             </div>
           </el-col>
           <el-col :span="14">
             <div v-if="!isTabs">
-                <div class="desc-title">打造个性店铺</div>
+                <div class="desc-title"><span v-if="!isPreview">打造个性店铺</span><span v-else>预览</span></div>
                 <ul class="desc-list">
                     <li>你可以自定义店铺logo</li>
                     <li>选择店铺招牌图片</li>
                 </ul>
+                <div v-if="isPreview" class="preview-btn-box">
+                    <div class="preview-btn-item">
+                        <el-button class="preview-btn-apply" type="primary" @click="applyPreview" size="large">应用到店铺</el-button>
+                    </div>
+                    <div class="preview-btn-item">
+                        <el-button class="preview-btn-cancel" type="primary" @click="cancelPreview" plain size="large">取&nbsp;&nbsp;&nbsp;&nbsp;消</el-button>
+                    </div>
+                </div>
             </div>
             <div class="tabs-box" v-if="isTabs">
                 <el-tabs type="border-card">
@@ -39,7 +47,7 @@
 
                         </div>
                         <div class="pre-view">
-                            <el-button class="pre-view-btn" type="primary" plain size="large">预览</el-button>
+                            <el-button class="pre-view-btn" type="primary" @click="goToPreview" plain size="large">预览</el-button>
                         </div>
                     </div>
                   </el-tab-pane>
@@ -61,7 +69,7 @@
                             </div>
                         </div>
                         <div class="pre-view">
-                            <el-button class="pre-view-btn" type="primary" plain size="large">预览</el-button>
+                            <el-button class="pre-view-btn" type="primary" @click="goToPreview" plain size="large">预览</el-button>
                         </div>
                     </div>
                   </el-tab-pane>
@@ -82,7 +90,8 @@
                 isTabs: false,
                 imageUrl: '',
                 logoUrl: '',
-                isImg: false
+                isImg: false,
+                isPreview: false,
             }
         },
         methods: {
@@ -104,7 +113,19 @@
                   this.$message.error('上传头像图片大小不能超过 2MB!');
                 }
                 return isJPG && isLt2M;
-            }
+            },
+            goToPreview() {
+                this.isPreview = true;
+                this.isTabs = false;
+            },
+            applyPreview() {
+                this.isPreview = false;
+                this.isTabs = false;
+            },
+            cancelPreview() {
+                this.isPreview = false;
+                this.isTabs = false;
+            },
         }
     }
 </script>
@@ -127,10 +148,10 @@
     }
     .abs-box {
         position: absolute;
-        top: 70px;
+        top: 71px;
         left: 0;
         width: 100%;
-        line-height: 117px;
+        line-height: 116px;
         font-size: 20px;
         text-align: center;
         color: #fff;
@@ -295,6 +316,13 @@
     .uploader-border-circle:hover .logo_hover::after {
         display: block;
     }
-
+    .preview-btn-box {
+        margin: 40px 0;
+    }
+    .preview-btn-apply,
+    .preview-btn-cancel {
+        width: 300px;
+        margin: 20px auto;
+    }
 
 </style>
