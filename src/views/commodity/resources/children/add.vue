@@ -124,22 +124,22 @@
                     <div class="specify-item">
                         <p>颜色:(只能选择一种颜色)</p>
                         <div class="size-tags">
-                            <span v-for="(item, index) in tagsOfColor" :key="index" @click="addNewColorItem(item)">
-                                <el-tag class="size-tag-item" color="#20a0ff" :closable="index > 5" @close.stop="handleColorTagClose(index)">{{item}}</el-tag>
+                            <span v-for="(item, index) in tagsOfColor" :key="index" @click="addNewColorItem(item, index)">
+                                <el-tag class="size-tag-item" v-bind:class="{size_tag_selected: item.selected}" color="#20a0ff" :closable="index > 5" @close.stop="handleColorTagClose(index)">{{item.color}}</el-tag>
                             </span>
                         </div>
                         <div class="add-size-tag">
-                            <el-input class="add-size-name" v-model="addMoreColorTag" placeholder="自定义属性"></el-input><el-button type="primary" @click="createNewColorTag">新建</el-button>
+                            <el-input class="add-size-name" v-model="addMoreColorTag.color" placeholder="自定义属性"></el-input><el-button type="primary" @click="createNewColorTag">新建</el-button>
                         </div>
 
                         <p>尺寸:(尺寸可以多选)</p>
                         <div class="size-tags">
-                            <span v-for="(item, index) in tagsOfSize" :key="index" @click="addNewSizeItem(item)">
-                                <el-tag class="size-tag-item" color="#20a0ff" :closable="index > 5" @close.stop="handleSizeTagClose(index)">{{item}}</el-tag>
+                            <span v-for="(item, index) in tagsOfSize" :key="index" @click="addNewSizeItem(item, index)">
+                                <el-tag class="size-tag-item" v-bind:class="{size_tag_selected: item.selected}" color="#20a0ff" :closable="index > 5" @close.stop="handleSizeTagClose(index)">{{item.size}}</el-tag>
                             </span>
                         </div>
                         <div class="add-size-tag">
-                            <el-input class="add-size-name" v-model="addMoreSizeTag" placeholder="自定义属性"></el-input><el-button type="primary" @click="createNewSizeTag">新建</el-button>
+                            <el-input class="add-size-name" v-model="addMoreSizeTag.size" placeholder="自定义属性"></el-input><el-button type="primary" @click="createNewSizeTag">新建</el-button>
                         </div>
 
                         <div>
@@ -241,8 +241,60 @@
                   }
 
               ],
-              tagsOfSize: ['XS','S', 'M', 'L', 'XL', 'XXL'],
-              tagsOfColor: ['绿色', '黑色', '白色', '红色', '黄色', '蓝色'],
+            //   tagsOfSize: ['XS','S', 'M', 'L', 'XL', 'XXL'],
+              tagsOfSize: [
+                  {
+                      size: 'XS',
+                      selected: false
+                  },
+                  {
+                      size: 'S',
+                      selected: false
+                  },
+                  {
+                      size: 'M',
+                      selected: false
+                  },
+                  {
+                      size: 'L',
+                      selected: false
+                  },
+                  {
+                      size: 'XL',
+                      selected: false
+                  },
+                  {
+                      size: 'XXL',
+                      selected: false
+                  },
+              ],
+            //   tagsOfColor: ['绿色', '黑色', '白色', '红色', '黄色', '蓝色'],
+              tagsOfColor: [
+                  {
+                      color: '绿色',
+                      selected: false
+                  },
+                  {
+                      color: '黑色',
+                      selected: false
+                  },
+                  {
+                      color: '白色',
+                      selected: false
+                  },
+                  {
+                      color: '红色',
+                      selected: false
+                  },
+                  {
+                      color: '黄色',
+                      selected: false
+                  },
+                  {
+                      color: '蓝色',
+                      selected: false
+                  },
+              ],
               level1List: [1, 2],
               level2List: [],
               level3List: [],
@@ -328,8 +380,14 @@
               ],
               colorchoosed: 'gray',
               searchbrand: '',
-              addMoreSizeTag: '',
-              addMoreColorTag: '',
+              addMoreSizeTag: {
+                  size: '',
+                  selected: false
+              },
+              addMoreColorTag: {
+                  color: '',
+                  selected: false
+              },
               sizeChoosed: [],
               temporaryItem: {color: '', size: ''},
               rules: {
@@ -383,17 +441,19 @@
                     });
                 }
             },
-            addNewSizeItem(item) {
+            addNewSizeItem(item, index) {
                 if(this.temporaryItem.color) {
-                    if(this.sizeChoosed.indexOf(item) > -1) {
+                    if(this.sizeChoosed.indexOf(item.size) > -1) {
                         this.$message({
                             message: '该尺寸已被选择',
                             type: 'warning'
                         });
                     } else {
-                        this.temporaryItem.size = item
+                        this.temporaryItem.size = item.size
                         this.ruleForm.productSpecify.push({color: this.temporaryItem.color, size: this.temporaryItem.size, productNum: ''})
-                        this.sizeChoosed.push(item)
+                        this.sizeChoosed.push(item.size)
+                        // item.selected = true
+                        this.tagsOfSize[index].selected = true
                     }
 
                 } else {
@@ -403,11 +463,13 @@
                     });
                 }
             },
-            addNewColorItem(item) {
+            addNewColorItem(item, index) {
                 if(!this.temporaryItem.color) {
-                    this.temporaryItem.color = item
+                    this.temporaryItem.color = item.color
+                    // item.selected = true
+                    this.tagsOfColor[index].selected = true
                 } else {
-                    if(this.temporaryItem.color != item) {
+                    if(this.temporaryItem.color != item.color) {
                         this.$message({
                             message: '只能选择一种颜色',
                             type: 'warning'
@@ -424,9 +486,12 @@
                 this.tagsOfColor.splice(index, 1)
             },
             createNewSizeTag() {
-                if(this.addMoreSizeTag) {
-                    this.tagsOfSize.push(this.addMoreSizeTag)
-                    this.addMoreSizeTag = ''
+                if(this.addMoreSizeTag.size) {
+                    this.tagsOfSize.push({
+                        size: this.addMoreSizeTag.size,
+                        selected: false
+                    })
+                    this.addMoreSizeTag.size = ''
                 } else {
                     this.$message({
                         message: '请输入新建尺寸属性',
@@ -435,9 +500,12 @@
                 }
             },
             createNewColorTag() {
-                if(this.addMoreColorTag) {
-                    this.tagsOfColor.push(this.addMoreColorTag)
-                    this.addMoreColorTag = ''
+                if(this.addMoreColorTag.color) {
+                    this.tagsOfColor.push({
+                        color: this.addMoreColorTag.color,
+                        selected: false
+                    })
+                    this.addMoreColorTag.color = ''
                 } else {
                     this.$message({
                         message: '请输入新建尺寸属性',
@@ -635,5 +703,8 @@
     }
     .level-right-icon {
       float: right;
+    }
+    .size_tag_selected {
+        background-color: #ddd !important;
     }
 </style>
