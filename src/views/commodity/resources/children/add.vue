@@ -146,7 +146,7 @@
                             <el-table
                                 :data="ruleForm.productSpecify"
                                 border
-                                style="width: 600px">
+                                style="width: 900px">
                                 <el-table-column
                                   prop="color"
                                   label="颜色"
@@ -165,6 +165,22 @@
                                   label="货号">
                                   <template scope="scope">
                                     <el-input v-model="scope.row.productNum" size="small"></el-input>
+                                  </template>
+                                </el-table-column>
+                                <el-table-column
+                                  prop="productCount"
+                                  align="center"
+                                  label="数量">
+                                  <template scope="scope">
+                                    <el-input v-model="scope.row.productCount" size="small"></el-input>
+                                  </template>
+                                </el-table-column>
+                                <el-table-column
+                                  prop="productPrice"
+                                  align="center"
+                                  label="成本价格">
+                                  <template scope="scope">
+                                    <el-input v-model="scope.row.productPrice" size="small"></el-input>
                                   </template>
                                 </el-table-column>
                             </el-table>
@@ -450,7 +466,7 @@
                         });
                     } else {
                         this.temporaryItem.size = item.size
-                        this.ruleForm.productSpecify.push({color: this.temporaryItem.color, size: this.temporaryItem.size, productNum: ''})
+                        this.ruleForm.productSpecify.push({color: this.temporaryItem.color, size: this.temporaryItem.size, productNum: '', productCount: '', productPrice: ''})
                         this.sizeChoosed.push(item.size)
                         // item.selected = true
                         this.tagsOfSize[index].selected = true
