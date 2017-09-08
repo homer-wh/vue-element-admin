@@ -6,7 +6,17 @@
           <el-col class="left-box" :span="10">
             <div class="img-box" v-bind:class="{ img_box_mask: isTabs }">
                 <img :src="shop_bg" alt="">
-                <div class="abs-box" v-if="!isPreview" v-bind:class="{ abs_box_mask: !isTabs }" @click="showEditor">&nbsp;</div>
+                <div class="abs-box" v-if="!isPreview" v-bind:class="{ abs_box_mask: !isTabs }" @click="showEditor">
+                    
+                </div>
+                <div class="abs-box" v-if="isPreview">
+                    <img class="shop_header" :src="previewHeader" alt="">
+                    <div class="shop_avatar">
+                        <img class="shop_avatar_img" :src="previewAvatar" alt="">
+                    </div>
+                    <p class="shop_title">DOPE官方旗舰店</p>
+                    <p class="shop_collect">+关注</p>
+                </div>
             </div>
           </el-col>
           <el-col :span="14">
@@ -83,10 +93,15 @@
 
 <script>
     import shop_bg from '@/assets/shop_images/shop_bg.png'
+    import header_bg from '@/assets/shop_images/header_bg.png'
+    import previewHeader from '@/assets/shop_images/new_header_bg.jpg'
+    import previewAvatar from '@/assets/shop_images/header_avatar.jpg'
     export default {
         data() {
             return {
                 shop_bg,
+                previewHeader,
+                previewAvatar,
                 isTabs: false,
                 imageUrl: '',
                 logoUrl: '',
@@ -119,8 +134,8 @@
                 this.isTabs = false;
             },
             applyPreview() {
-                this.isPreview = false;
-                this.isTabs = false;
+                // this.isPreview = false;
+                // this.isTabs = false;
             },
             cancelPreview() {
                 this.isPreview = false;
@@ -151,12 +166,14 @@
         top: 71px;
         left: 0;
         width: 100%;
+        height: 116px;
         line-height: 116px;
         font-size: 20px;
         text-align: center;
         color: #fff;
         background: url('../../../assets/shop_images/header_bg.png');
         z-index: 2;
+        overflow: hidden;
     }
     .abs_box_mask::after {
         position: absolute;
@@ -323,6 +340,45 @@
     .preview-btn-cancel {
         width: 300px;
         margin: 20px auto;
+    }
+    .shop_header {
+        display: block;
+        width: 100%;
+    }
+    .shop_avatar {
+        position: absolute;
+        left: 43px;
+        bottom: 15px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: #eee;
+        overflow: hidden;
+    }
+    .shop_avatar_img {
+        display: block;
+        width: 100%;
+    }
+    .shop_title {
+        position: absolute;
+        left: 108px;
+        bottom: 18px;
+        height: 20px;
+        line-height: 20px;
+        font-size: 16px;
+        color: #fff;
+    }
+    .shop_collect {
+        position: absolute;
+        right: 20px;
+        bottom: 16px;
+        width: 66px;
+        height: 26px;
+        line-height: 25px;
+        font-size: 14px;
+        color: #fff;
+        border: 1px solid #fff;
+        border-radius: 4px;
     }
 
 </style>
